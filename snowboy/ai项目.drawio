@@ -1,0 +1,1224 @@
+<mxfile host="Electron" type="device" pages="5" compressed="false">
+  <diagram name="01 全链路总览" id="68yVxgb15d47kjrqnos0">
+    <mxGraphModel dx="1800" dy="1800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1800" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="H-title" parent="1" vertex="1" value="01 全链路总览" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=30;fontStyle=1;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="22" width="1710" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="H-subtitle" parent="1" vertex="1" value="按蛇形主线阅读：录音唤醒 → 本地识别 → 云端对话合成 → 音频回传 → 输出与结束。" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=15;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="78" width="1710" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="H-legend" parent="1" vertex="1" value="蓝色＝客户端 C++   绿色＝Python服务端   橙色＝云端模型   紫色＝队列   黄色＝条件   实线＝数据/调用   虚线＝事件/控制" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=13;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="116" width="1710" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="L-row0" parent="1" vertex="1" value="01  客户端：录音、唤醒与本地提示音" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=center;spacingLeft=0;collapsible=0;container=1;">
+          <mxGeometry x="30" y="165" width="1740" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="L-row1" parent="1" vertex="1" value="02  用户音频上行：编码发送与服务端本地识别" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF6EF;swimlaneFillColor=#FFFFFF;strokeColor=#77A88B;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=center;spacingLeft=0;collapsible=0;container=1;">
+          <mxGeometry x="30" y="395" width="1740" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="L-row2" parent="1" vertex="1" value="03  服务端编排：意图、云端聊天和云端语音合成" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#FFF0DB;swimlaneFillColor=#FFFFFF;strokeColor=#D0A061;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=center;spacingLeft=0;collapsible=0;container=1;">
+          <mxGeometry x="30" y="625" width="1740" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="L-row3" parent="1" vertex="1" value="04  回复音频下行：切帧编码、发送与接收解码" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF6EF;swimlaneFillColor=#FFFFFF;strokeColor=#77A88B;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=center;spacingLeft=0;collapsible=0;container=1;">
+          <mxGeometry x="30" y="855" width="1740" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="L-row4" parent="1" vertex="1" value="05  客户端播放：音频队列、缓冲区与结束判断" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=center;spacingLeft=0;collapsible=0;container=1;">
+          <mxGeometry x="30" y="1085" width="1740" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="N-mic" parent="L-row0" vertex="1" value="&lt;b&gt;麦克风输入&lt;/b&gt;&lt;br/&gt;原始 PCM&lt;br/&gt;16kHz / 单声道 / 16位" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-record" parent="L-row0" vertex="1" value="&lt;b&gt;PortAudio 录音回调&lt;/b&gt;&lt;br/&gt;recordCallback → vector&lt;br/&gt;→ recordedAudioQueue" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="370" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-wake" parent="L-row0" vertex="1" value="&lt;b&gt;Idle 取 PCM 并检测&lt;/b&gt;&lt;br/&gt;getRecordedAudio → Snowboy&lt;br/&gt;命中后发 wake_detected" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="700" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-prompt" parent="L-row0" vertex="1" value="&lt;b&gt;Idle::Exit 准备提示音&lt;/b&gt;&lt;br/&gt;停止录音，读取 waked.pcm&lt;br/&gt;40ms PCM帧 → playbackQueue" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1030" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-hint" parent="L-row0" vertex="1" value="&lt;b&gt;进入 Speaking 并播放&lt;/b&gt;&lt;br/&gt;startPlaying → playCallback&lt;br/&gt;本地提示音直接使用 PCM" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1360" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-asr" parent="L-row1" vertex="1" value="&lt;b&gt;本地 ASR → 用户文字&lt;/b&gt;&lt;br/&gt;SenseVoiceSmall&lt;br/&gt;发 ASR JSON 并提交聊天任务" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-vad" parent="L-row1" vertex="1" value="&lt;b&gt;本地 FSMN VAD&lt;/b&gt;&lt;br/&gt;累计 200ms 检测&lt;br/&gt;1/3 → ASR；2 → 无语音超时" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="370" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-receive" parent="L-row1" vertex="1" value="&lt;b&gt;服务端接收二进制&lt;/b&gt;&lt;br/&gt;解包 → Opus 解码 → PCM&lt;br/&gt;VAD缓存 / 独立ASR缓存" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="700" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-uplink" parent="L-row1" vertex="1" value="&lt;b&gt;客户端编码与发送&lt;/b&gt;&lt;br/&gt;PCM → Opus → PackBinFrame&lt;br/&gt;8字节头 + Opus → SendBinary" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1030" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-listen" parent="L-row1" vertex="1" value="&lt;b&gt;Listening 采集对话音频&lt;/b&gt;&lt;br/&gt;启动录音并取 PCM 队列&lt;br/&gt;默认一帧40ms / 1280字节" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1360" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-intent" parent="L-row2" vertex="1" value="&lt;b&gt;意图识别与工具分支&lt;/b&gt;&lt;br/&gt;云端 qwen-turbo&lt;br/&gt;继续 / 结束 / function_call" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF0DB;strokeColor=#D0A061;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-chat" parent="L-row2" vertex="1" value="&lt;b&gt;聊天请求与多轮历史&lt;/b&gt;&lt;br/&gt;ChatService → 云端 qwen-turbo&lt;br/&gt;messages 保存历史" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF0DB;strokeColor=#D0A061;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="370" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-delta" parent="L-row2" vertex="1" value="&lt;b&gt;流式回复逐段产出&lt;/b&gt;&lt;br/&gt;delta → yield → text_chunk&lt;br/&gt;full_text 完成后存历史" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="700" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-tts" parent="L-row2" vertex="1" value="&lt;b&gt;SDK → 云端 TTS 合成&lt;/b&gt;&lt;br/&gt;逐段 streaming_call&lt;br/&gt;CosyVoice → PCM 音频" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF0DB;strokeColor=#D0A061;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1030" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-pcm" parent="L-row2" vertex="1" value="&lt;b&gt;TTS 音频数据回调&lt;/b&gt;&lt;br/&gt;_tts_on_data(data)&lt;br/&gt;PCM 块 → audio_queue" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1360" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-unpack" parent="L-row3" vertex="1" value="&lt;b&gt;客户端解包与解码&lt;/b&gt;&lt;br/&gt;UnpackBinFrame 提取 Opus&lt;br/&gt;检查版本/类型 → decode → PCM" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-client-rx" parent="L-row3" vertex="1" value="&lt;b&gt;WebSocket++ 接收回调&lt;/b&gt;&lt;br/&gt;完整消息 → on_message&lt;br/&gt;应用 lambda → ws_msg_handle" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="370" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-send" parent="L-row3" vertex="1" value="&lt;b&gt;WebSocket 发送协程&lt;/b&gt;&lt;br/&gt;ws_send_queue 取下一条&lt;br/&gt;await websocket.send(data)" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="700" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-pack" parent="L-row3" vertex="1" value="&lt;b&gt;编码并添加应用包头&lt;/b&gt;&lt;br/&gt;encode_audio → Opus&lt;br/&gt;pack_bin_frame：!HHI + 负载" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1030" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-slice" parent="L-row3" vertex="1" value="&lt;b&gt;AudioSendThread 切帧&lt;/b&gt;&lt;br/&gt;audio_queue → 40ms PCM帧&lt;br/&gt;完整一帧才编码" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1360" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-queue" parent="L-row4" vertex="1" value="&lt;b&gt;PCM 播放队列&lt;/b&gt;&lt;br/&gt;addFrameToPlaybackQueue&lt;br/&gt;保存 int16_t 采样值" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-callback" parent="L-row4" vertex="1" value="&lt;b&gt;PortAudio 播放回调&lt;/b&gt;&lt;br/&gt;playCallback 取队列首帧&lt;br/&gt;空队列时补静音并继续" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="370" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-buffer" parent="L-row4" vertex="1" value="&lt;b&gt;填充输出缓冲区&lt;/b&gt;&lt;br/&gt;std::copy → outputBuffer&lt;br/&gt;出队表示已提交输出数据" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="700" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-speaker" parent="L-row4" vertex="1" value="&lt;b&gt;音频设备输出声音&lt;/b&gt;&lt;br/&gt;PortAudio → 系统音频设备&lt;br/&gt;→ 声卡与扬声器" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1030" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-finish" parent="L-row4" vertex="1" value="&lt;b&gt;Speaking 检查结束&lt;/b&gt;&lt;br/&gt;tts_completed 且播放队列空&lt;br/&gt;成立后额外等待500ms" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1360" y="60" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-start" parent="1" vertex="1" value="&lt;b&gt;首条回复音频触发 Speaking&lt;/b&gt;&lt;br/&gt;speaking_msg_received → 状态机&lt;br/&gt;startPlaying 启动播放流" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="70" y="1400" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-end-json" parent="1" vertex="1" value="&lt;b&gt;服务端 TTS 完成通知&lt;/b&gt;&lt;br/&gt;_tts_on_complete&lt;br/&gt;{type:tts, state:end}&lt;br/&gt;客户端设置 tts_completed" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="730" y="1400" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-dialogue" parent="1" vertex="1" value="&lt;b&gt;是否结束整个对话？&lt;/b&gt;&lt;br/&gt;dialogue_completed&lt;br/&gt;来自 chat / dialogue=end" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1390" y="1400" width="260" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-continue" parent="1" vertex="1" value="&lt;b&gt;继续对话 → Listening&lt;/b&gt;&lt;br/&gt;Speaking::Exit 停止播放&lt;br/&gt;speaking_end → listening" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1060" y="1600" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-idle" parent="1" vertex="1" value="&lt;b&gt;结束对话 → Idle&lt;/b&gt;&lt;br/&gt;Speaking::Exit 停止播放&lt;br/&gt;dialogue_end → 等待唤醒" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="1390" y="1600" width="260" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="N-legend-note" parent="1" vertex="1" value="&lt;b&gt;阅读与大小说明&lt;/b&gt;&lt;br/&gt;实线：数据/调用；虚线：事件/控制&lt;br/&gt;40ms PCM为1280字节；Opus大小可变&lt;br/&gt;合成完成、队列空、设备输出完成是不同阶段" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="70" y="1600" width="650" height="132" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e1" parent="1" edge="1" source="N-mic" target="N-record" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e2" parent="1" edge="1" source="N-record" target="N-wake" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e3" parent="1" edge="1" source="N-wake" target="N-prompt" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e4" parent="1" edge="1" source="N-prompt" target="N-hint" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e5" parent="1" edge="1" source="N-listen" target="N-uplink" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e6" parent="1" edge="1" source="N-uplink" target="N-receive" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e7" parent="1" edge="1" source="N-receive" target="N-vad" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e8" parent="1" edge="1" source="N-vad" target="N-asr" value="1 / 3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e9" parent="1" edge="1" source="N-intent" target="N-chat" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e10" parent="1" edge="1" source="N-chat" target="N-delta" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e11" parent="1" edge="1" source="N-delta" target="N-tts" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e12" parent="1" edge="1" source="N-tts" target="N-pcm" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e13" parent="1" edge="1" source="N-slice" target="N-pack" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e14" parent="1" edge="1" source="N-pack" target="N-send" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e15" parent="1" edge="1" source="N-send" target="N-client-rx" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e16" parent="1" edge="1" source="N-client-rx" target="N-unpack" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e17" parent="1" edge="1" source="N-queue" target="N-callback" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e18" parent="1" edge="1" source="N-callback" target="N-buffer" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e19" parent="1" edge="1" source="N-buffer" target="N-speaker" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e20" parent="1" edge="1" source="N-hint" target="N-listen" value="speaking_end" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e21" parent="1" edge="1" source="N-asr" target="N-intent" value="asr_res → 聊天任务" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e22" parent="1" edge="1" source="N-pcm" target="N-slice" value="PCM队列" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e23" parent="1" edge="1" source="N-unpack" target="N-queue" value="PCM采样值" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e24" parent="1" edge="1" source="N-client-rx" target="N-start" value="首条音频事件" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="970" />
+              <mxPoint x="350" y="1335" />
+              <mxPoint x="50" y="1335" />
+              <mxPoint x="50" y="1461" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e25" parent="1" edge="1" source="N-start" target="N-callback" value="启动音频流" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="1461" />
+              <mxPoint x="380" y="1201" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e26" parent="1" edge="1" source="N-end-json" target="N-finish" value="JSON控制消息" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1360" y="1461" />
+              <mxPoint x="1360" y="1201" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e27" parent="1" edge="1" source="N-queue" target="N-finish" value="检查应用队列是否为空" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="1320" />
+              <mxPoint x="1350" y="1320" />
+              <mxPoint x="1350" y="1215" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e28" parent="1" edge="1" source="N-finish" target="N-dialogue" value="判断对话标志" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e29" parent="1" edge="1" source="N-dialogue" target="N-continue" value="false" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1520" y="1560" />
+              <mxPoint x="1190" y="1560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e30" parent="1" edge="1" source="N-dialogue" target="N-idle" value="true" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="H-footer" parent="1" vertex="1" value="Echo-Mate · 按工作区源码核对 · 更新于2026-10-09 · 节点与连线均可继续在draw.io中编辑" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=12;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="1771" width="1710" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="02 唤醒、采集与状态机" id="client-state">
+    <mxGraphModel dx="1800" dy="1900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1900" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="H-title" parent="1" vertex="1" value="02 唤醒、采集与状态机" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=30;fontStyle=1;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="22" width="1710" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="H-subtitle" parent="1" vertex="1" value="正常主线：先旧状态 Exit，再新状态 Enter；网络线程、状态线程与音频回调异步执行。" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=15;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="78" width="1710" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="H-legend" parent="1" vertex="1" value="蓝色＝客户端 C++   绿色＝Python服务端   橙色＝云端模型   紫色＝队列   黄色＝条件   实线＝数据/调用   虚线＝事件/控制" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=13;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="116" width="1710" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="L-startup-lane" parent="1" vertex="1" value="启动与网络连接" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="30" y="150" width="390" height="1690" as="geometry" />
+        </mxCell>
+        <mxCell id="L-idle-lane" parent="1" vertex="1" value="Idle：录音、队列与唤醒" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="450" y="150" width="390" height="1690" as="geometry" />
+        </mxCell>
+        <mxCell id="L-speech-lane" parent="1" vertex="1" value="提示音播放与对话采集" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="870" y="150" width="390" height="1690" as="geometry" />
+        </mxCell>
+        <mxCell id="L-state-lane" parent="1" vertex="1" value="状态机：回复、结束与回环" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="1290" y="150" width="450" height="1690" as="geometry" />
+        </mxCell>
+        <mxCell id="N-app-run" parent="L-startup-lane" vertex="1" value="&lt;b&gt;Application::Run&lt;/b&gt;&lt;br/&gt;状态线程初始化状态机&lt;br/&gt;初始状态为startup&lt;br/&gt;StateConfig::Configure" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="70" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-startup-enter" parent="L-startup-lane" vertex="1" value="&lt;b&gt;StartupState::Enter&lt;/b&gt;&lt;br/&gt;Run启动网络事件循环&lt;br/&gt;Connect发起异步连接&lt;br/&gt;TCP + WebSocket握手" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="235" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="N-startup-connected" parent="L-startup-lane" vertex="1" value="&lt;b&gt;连接是否成功？&lt;/b&gt;&lt;br/&gt;最多等待20秒&lt;br/&gt;成功后发送hello及注册消息" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="400" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="N-startup-done" parent="L-startup-lane" vertex="1" value="&lt;b&gt;startup_done&lt;/b&gt;&lt;br/&gt;事件进入eventQueue&lt;br/&gt;状态线程取出事件&lt;br/&gt;Startup::Exit -&amp;gt; Idle::Enter" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="565" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-startup-stop" parent="L-startup-lane" vertex="1" value="&lt;b&gt;启动失败&lt;/b&gt;&lt;br/&gt;to_stop -&amp;gt; stopping&lt;br/&gt;正常主线不再继续" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="730" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="N-async-roles" parent="L-startup-lane" vertex="1" value="&lt;b&gt;三种执行时机&lt;/b&gt;&lt;br/&gt;网络线程：收消息与发送&lt;br/&gt;状态线程：消费状态事件&lt;br/&gt;音频回调：采集与播放" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="950" width="300" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="N-state-order" parent="L-startup-lane" vertex="1" value="&lt;b&gt;状态切换顺序&lt;/b&gt;&lt;br/&gt;先旧状态Exit&lt;br/&gt;再更新当前状态&lt;br/&gt;最后新状态Enter" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1150" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-source-states" parent="L-startup-lane" vertex="1" value="&lt;b&gt;源码目录&lt;/b&gt;&lt;br/&gt;Application/UserStates/*.cc&lt;br/&gt;Application/StateConfig.cc&lt;br/&gt;StateMachine/StateMachine.cc" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1354" width="300" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="N-idle-enter" parent="L-idle-lane" vertex="1" value="&lt;b&gt;Idle::Enter&lt;/b&gt;&lt;br/&gt;报告idle状态、清录音队列&lt;br/&gt;startRecording启动录音&lt;br/&gt;启动Idle::Run线程" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="70" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="N-record-callback" parent="L-idle-lane" vertex="1" value="&lt;b&gt;PortAudio录音回调&lt;/b&gt;&lt;br/&gt;recordCallback接收PCM&lt;br/&gt;复制到vector&amp;lt;int16_t&amp;gt;&lt;br/&gt;默认40ms、640个单声道样本&lt;br/&gt;队列满750帧时丢最旧帧" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="235" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-record-queue" parent="L-idle-lane" vertex="1" value="&lt;b&gt;recordedAudioQueue&lt;/b&gt;&lt;br/&gt;保存PCM帧&lt;br/&gt;尚未进行Opus编码" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="402" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="N-idle-detect" parent="L-idle-lane" vertex="1" value="&lt;b&gt;Idle::Run&lt;/b&gt;&lt;br/&gt;getRecordedAudio -&amp;gt; PCM&lt;br/&gt;SnowboyDetectRunDetection&lt;br/&gt;检测结果大于0即唤醒" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="547" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-wake-event" parent="L-idle-lane" vertex="1" value="&lt;b&gt;wake_detected&lt;/b&gt;&lt;br/&gt;进入eventQueue&lt;br/&gt;状态线程执行idle到speaking" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="692" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="N-idle-exit" parent="L-idle-lane" vertex="1" value="&lt;b&gt;Idle::Exit&lt;/b&gt;&lt;br/&gt;停止录音并join检测线程&lt;br/&gt;读取waked.pcm并切40ms帧&lt;br/&gt;addFrameToPlaybackQueue&lt;br/&gt;tts_completed = true" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="837" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-hint-queue" parent="L-idle-lane" vertex="1" value="&lt;b&gt;playbackQueue&lt;/b&gt;&lt;br/&gt;保存本地提示音PCM&lt;br/&gt;入队只是准备数据" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1004" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="N-record-detect-note" parent="L-idle-lane" vertex="1" value="&lt;b&gt;检测和采集分工&lt;/b&gt;&lt;br/&gt;回调只把PCM放进队列&lt;br/&gt;Idle线程取PCM调用Snowboy&lt;br/&gt;PortAudio不直接调用检测" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1160" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="N-audio-defaults" parent="L-idle-lane" vertex="1" value="&lt;b&gt;默认音频参数&lt;/b&gt;&lt;br/&gt;16000Hz / mono / int16_t&lt;br/&gt;40ms = 640 PCM samples&lt;br/&gt;PCM frame = 1280 bytes&lt;br/&gt;改配置时需重新计算" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1325" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-hint-speaking" parent="L-speech-lane" vertex="1" value="&lt;b&gt;Speaking::Enter&lt;/b&gt;&lt;br/&gt;由idle进入speaking&lt;br/&gt;startPlaying启动输出流&lt;br/&gt;PortAudio回调获取PCM" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="70" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-hint-play" parent="L-speech-lane" vertex="1" value="&lt;b&gt;playCallback&lt;/b&gt;&lt;br/&gt;从playbackQueue取提示音&lt;br/&gt;std::copy -&amp;gt; outputBuffer&lt;br/&gt;PortAudio与设备输出声音" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="235" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-hint-finish" parent="L-speech-lane" vertex="1" value="&lt;b&gt;提示音完成检查&lt;/b&gt;&lt;br/&gt;tts_completed &amp;amp;&amp;amp; queue.empty()&lt;br/&gt;额外等待500ms&lt;br/&gt;发speaking_end事件" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="400" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="N-listening-enter" parent="L-speech-lane" vertex="1" value="&lt;b&gt;Listening::Enter&lt;/b&gt;&lt;br/&gt;先Speaking::Exit停止播放&lt;br/&gt;报告状态、重置首条回复标志&lt;br/&gt;启动录音，等500ms后清队列&lt;br/&gt;启动Listening::Run线程" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="565" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-listening-encode" parent="L-speech-lane" vertex="1" value="&lt;b&gt;Listening::Run&lt;/b&gt;&lt;br/&gt;getRecordedAudio -&amp;gt; PCM&lt;br/&gt;encode -&amp;gt; opus_encode&lt;br/&gt;Opus数据大小可变化" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="732" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-pack-uplink" parent="L-speech-lane" vertex="1" value="&lt;b&gt;PackBinFrame&lt;/b&gt;&lt;br/&gt;2字节版本 + 2字节类型&lt;br/&gt;4字节长度 + Opus负载&lt;br/&gt;应用包头固定8字节" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="877" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-send-uplink" parent="L-speech-lane" vertex="1" value="&lt;b&gt;SendBinary&lt;/b&gt;&lt;br/&gt;binary opcode发送整包&lt;br/&gt;C++客户端 -&amp;gt; Python服务端&lt;br/&gt;等待ASR结果与音频回复" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1022" width="300" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-stop-output-note" parent="L-speech-lane" vertex="1" value="&lt;b&gt;退出speaking&lt;/b&gt;&lt;br/&gt;Speaking::Exit清应用队列&lt;br/&gt;stopPlaying停止输出流&lt;br/&gt;Pa_StopStream等待缓冲&lt;br/&gt;队列空不等于设备已播完" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1187" width="300" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-source-audio" parent="L-speech-lane" vertex="1" value="&lt;b&gt;源码：AudioProcess.cc&lt;/b&gt;&lt;br/&gt;recordCallback / encode&lt;br/&gt;PackBinFrame / playCallback&lt;br/&gt;WS_Handler处理下行消息" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1354" width="300" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="N-server-asr" parent="L-state-lane" vertex="1" value="&lt;b&gt;收到服务端ASR&lt;/b&gt;&lt;br/&gt;type=asr文本消息&lt;br/&gt;handle_asr_message&lt;br/&gt;asr_received -&amp;gt; eventQueue" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="70" width="340" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="N-thinking-enter" parent="L-state-lane" vertex="1" value="&lt;b&gt;Thinking::Enter&lt;/b&gt;&lt;br/&gt;asr_received：监听到思考&lt;br/&gt;Listening::Exit停止录音&lt;br/&gt;仅报告thinking状态" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="235" width="340" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-reply-first" parent="L-state-lane" vertex="1" value="&lt;b&gt;首条回复二进制消息&lt;/b&gt;&lt;br/&gt;if first_audio_msg_received&lt;br/&gt;清首条标志并发事件&lt;br/&gt;speaking_msg_received -&amp;gt; queue&lt;br/&gt;同时解包、解码并入队" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="400" width="340" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-reply-speaking" parent="L-state-lane" vertex="1" value="&lt;b&gt;Speaking播放回复&lt;/b&gt;&lt;br/&gt;thinking -&amp;gt; speaking&lt;br/&gt;播放回调消费回复PCM&lt;br/&gt;网络继续接收后续音频" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="567" width="340" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="N-end-flags" parent="L-state-lane" vertex="1" value="&lt;b&gt;收到TTS与对话标志&lt;/b&gt;&lt;br/&gt;tts/state=end: tts_completed=true&lt;br/&gt;chat/dialogue=end&lt;br/&gt;dialogue_completed=true&lt;br/&gt;音频与完成标志异步到达" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="717" width="340" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-reply-finish" parent="L-state-lane" vertex="1" value="&lt;b&gt;回复结束去向&lt;/b&gt;&lt;br/&gt;tts_completed &amp;amp;&amp;amp; queue.empty()&lt;br/&gt;额外等500ms后发结束事件&lt;br/&gt;dialogue_completed ?" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="884" width="340" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="N-state-continue" parent="L-state-lane" vertex="1" value="&lt;b&gt;继续对话&lt;/b&gt;&lt;br/&gt;speaking_end -&amp;gt; listening&lt;br/&gt;Speaking::Exit后再进入&lt;br/&gt;重新录音，等待下一轮" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1040" width="340" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-state-idle" parent="L-state-lane" vertex="1" value="&lt;b&gt;结束对话&lt;/b&gt;&lt;br/&gt;dialogue_end -&amp;gt; idle&lt;br/&gt;Speaking::Exit后再进入&lt;br/&gt;等待下一次唤醒" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1185" width="340" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="N-state-timeout" parent="L-state-lane" vertex="1" value="&lt;b&gt;无语音超时&lt;/b&gt;&lt;br/&gt;vad_no_speech -&amp;gt; idle&lt;br/&gt;Listening::Exit停止录音&lt;br/&gt;回到Idle唤醒检测" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="40" y="1330" width="340" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-app-startup" parent="1" edge="1" source="N-app-run" target="N-startup-enter" value="初始化startup" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-startup-check" parent="1" edge="1" source="N-startup-enter" target="N-startup-connected" value="异步建连" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-startup-success" parent="1" edge="1" source="N-startup-connected" target="N-startup-done" value="成功" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-startup-failure" parent="1" edge="1" source="N-startup-connected" target="N-startup-stop" value="失败 / to_stop" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="12" y="0" as="offset" />
+            <Array as="points">
+              <mxPoint x="405" y="605.0" />
+              <mxPoint x="405" y="930.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-startup-idle" parent="1" edge="1" source="N-startup-done" target="N-idle-enter" value="startup_done" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="765.0" />
+              <mxPoint x="430" y="275.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-idle-record" parent="1" edge="1" source="N-idle-enter" target="N-record-callback" value="startRecording" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-record-queue" parent="1" edge="1" source="N-record-callback" target="N-record-queue" value="PCM入队" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-queue-idle" parent="1" edge="1" source="N-record-queue" target="N-idle-detect" value="取PCM检测" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-no-wake" parent="1" edge="1" source="N-idle-detect" target="N-idle-detect" value="未唤醒：继续取PCM" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="815" y="747.0" />
+              <mxPoint x="815" y="677" />
+              <mxPoint x="640" y="677" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-wake-detected" parent="1" edge="1" source="N-idle-detect" target="N-wake-event" value="result &amp;gt; 0" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-idle-exit" parent="1" edge="1" source="N-wake-event" target="N-idle-exit" value="wake_detected" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-hint-enqueue" parent="1" edge="1" source="N-idle-exit" target="N-hint-queue" value="本地PCM入队" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-hint-start" parent="1" edge="1" source="N-hint-queue" target="N-hint-speaking" value="旧Exit后新Enter" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="860" y="1204.0" />
+              <mxPoint x="860" y="270.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-hint-output" parent="1" edge="1" source="N-hint-speaking" target="N-hint-play" value="音频流请求数据" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-hint-check" parent="1" edge="1" source="N-hint-play" target="N-hint-finish" value="队列被消费" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-hint-listen" parent="1" edge="1" source="N-hint-finish" target="N-listening-enter" value="speaking_end" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-listen-run" parent="1" edge="1" source="N-listening-enter" target="N-listening-encode" value="启动采集工作线程" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-queue-listen" parent="1" edge="1" source="N-record-queue" target="N-listening-encode" value="listening取PCM" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="602.0" />
+              <mxPoint x="830" y="932.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-listen-pack" parent="1" edge="1" source="N-listening-encode" target="N-pack-uplink" value="编码后的Opus" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-pack-send" parent="1" edge="1" source="N-pack-uplink" target="N-send-uplink" value="8字节头 + Opus" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-send-asr" parent="1" edge="1" source="N-send-uplink" target="N-server-asr" value="服务端返回ASR" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1275" y="1222.0" />
+              <mxPoint x="1275" y="272.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-send-end-flags" parent="1" edge="1" source="N-send-uplink" target="N-end-flags" value="服务端完成消息" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1265" y="1222.0" />
+              <mxPoint x="1265" y="928.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-asr-thinking" parent="1" edge="1" source="N-server-asr" target="N-thinking-enter" value="asr_received" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-thinking-wait" parent="1" edge="1" source="N-thinking-enter" target="N-reply-first" value="等待服务端回复" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-reply-speaking" parent="1" edge="1" source="N-reply-first" target="N-reply-speaking" value="speaking_msg_received" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-reply-playback-check" parent="1" edge="1" source="N-reply-speaking" target="N-reply-finish" value="播放队列被消费" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1690" y="769.5" />
+              <mxPoint x="1690" y="1014" />
+              <mxPoint x="1310" y="1014" />
+              <mxPoint x="1310" y="1089.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-flags-check" parent="1" edge="1" source="N-end-flags" target="N-reply-finish" value="标志供Run读取" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-continue" parent="1" edge="1" source="N-reply-finish" target="N-state-continue" value="false / speaking_end" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e-dialogue-end" parent="1" edge="1" source="N-reply-finish" target="N-state-idle" value="true / dialogue_end" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="20" y="0" as="offset" />
+            <Array as="points">
+              <mxPoint x="1710" y="1089.0" />
+              <mxPoint x="1710" y="1385.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-continue-listen" parent="1" edge="1" source="N-state-continue" target="N-listening-enter" value="speaking_end" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="1240.0" />
+              <mxPoint x="1250" y="776.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-dialogue-idle" parent="1" edge="1" source="N-state-idle" target="N-idle-enter" value="dialogue_end" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1730" y="1385.0" />
+              <mxPoint x="1730" y="1790" />
+              <mxPoint x="445" y="1790" />
+              <mxPoint x="445" y="195" />
+              <mxPoint x="640" y="195" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-listen-timeout" parent="1" edge="1" source="N-listening-enter" target="N-state-timeout" value="vad/no_speech消息" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-20" y="0" as="offset" />
+            <Array as="points">
+              <mxPoint x="1285" y="776.0" />
+              <mxPoint x="1285" y="1532.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-timeout-idle" parent="1" edge="1" source="N-state-timeout" target="N-idle-enter" value="vad_no_speech" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1715" y="1532.5" />
+              <mxPoint x="1715" y="1765" />
+              <mxPoint x="460" y="1765" />
+              <mxPoint x="460" y="200" />
+              <mxPoint x="640" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-note-async" parent="1" edge="1" source="N-async-roles" target="N-app-run" value="三类线程并行" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#8B9AAC;strokeWidth=1.5;fontColor=#8B9AAC;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="0" y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="45" y="1157.5" />
+              <mxPoint x="45" y="270.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-note-order" parent="1" edge="1" source="N-state-order" target="N-idle-exit" value="统一切换规则" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#8B9AAC;strokeWidth=1.5;fontColor=#8B9AAC;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="1350.0" />
+              <mxPoint x="440" y="1048.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e-note-output" parent="1" edge="1" source="N-stop-output-note" target="N-hint-finish" value="消费与输出不同步" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#8B9AAC;strokeWidth=1.5;fontColor=#8B9AAC;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="890" y="1398.0" />
+              <mxPoint x="890" y="605.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="H-footer" parent="1" vertex="1" value="Echo-Mate · 按工作区源码核对 · 更新于2026-10-09 · 节点与连线均可继续在draw.io中编辑" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=12;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="1871" width="1710" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="03 服务端识别与对话" id="server-processing">
+    <mxGraphModel dx="1800" dy="1980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1980" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="H-title" parent="1" vertex="1" value="03 服务端识别与对话" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=30;fontStyle=1;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="22" width="1710" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="H-subtitle" parent="1" vertex="1" value="40ms Opus 解包后由本地 FSMN / SenseVoiceSmall 识别；云端 qwen-turbo 处理意图与聊天，回复片段逐段进入 TTS。" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=15;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="78" width="1710" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="H-legend" parent="1" vertex="1" value="蓝色＝客户端 C++   绿色＝Python服务端   橙色＝云端模型   紫色＝队列   黄色＝条件   实线＝数据/调用   虚线＝事件/控制" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=13;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="116" width="1710" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="L-server-local" parent="1" vertex="1" value="Python 服务端：本地处理、队列与线程池" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF6EF;swimlaneFillColor=#FFFFFF;strokeColor=#77A88B;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="50" y="160" width="1260" height="1790" as="geometry" />
+        </mxCell>
+        <mxCell id="L-server-asr-send" parent="1" vertex="1" value="服务端发送 ASR 文本" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF6EF;swimlaneFillColor=#FFFFFF;strokeColor=#77A88B;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="1310" y="680" width="420" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="L-client-asr" parent="1" vertex="1" value="C++ 客户端" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="1310" y="920" width="420" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="L-aliyun-llm" parent="1" vertex="1" value="阿里云百炼：云端模型" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#FFF0DB;swimlaneFillColor=#FFFFFF;strokeColor=#D0A061;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="1310" y="1150" width="420" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="N-server-ws-binary" parent="L-server-local" vertex="1" value="&lt;b&gt;WebSocket 收到二进制消息&lt;/b&gt;&lt;br/&gt;handle_audio_message(msg)&lt;br/&gt;每包通常是一帧40ms音频&lt;br/&gt;先处理自定义应用协议" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="60" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-server-unpack" parent="L-server-local" vertex="1" value="&lt;b&gt;解包并检查协议&lt;/b&gt;&lt;br/&gt;unpack_bin_frame(msg)&lt;br/&gt;!HHI：8字节头 + Opus&lt;br/&gt;校验版本 / type=0 / is_vad" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="235" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-server-decode" parent="L-server-local" vertex="1" value="&lt;b&gt;Opus 解码为 PCM&lt;/b&gt;&lt;br/&gt;decode_audio(payload)&lt;br/&gt;np.frombuffer(..., dtype=np.int16)&lt;br/&gt;默认640采样值 / 1280字节" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="410" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-server-vad" parent="L-server-local" vertex="1" value="&lt;b&gt;本地 FSMN VAD&lt;/b&gt;&lt;br/&gt;独立VAD缓存；默认CPU&lt;br/&gt;累计200ms（3200采样）检测&lt;br/&gt;返回 0 / 1 / 2 / 3" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="585" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-vad-boundary-note" parent="L-server-local" vertex="1" value="&lt;b&gt;VAD 当前实现边界&lt;/b&gt;&lt;br/&gt;当前帧追加前检查 &amp;gt;15秒&lt;br/&gt;last_speech_pos &amp;gt; 800&lt;br/&gt;不等同实际语音持续时长" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="760" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-pcm-size-note" parent="L-server-local" vertex="1" value="&lt;b&gt;音频块与 VAD 切片不同&lt;/b&gt;&lt;br/&gt;网络默认40ms；VAD切200ms&lt;br/&gt;ASR独立保存本轮PCM&lt;br/&gt;ASR不是每200ms云端识别" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="935" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-vad-return" parent="L-server-local" vertex="1" value="&lt;b&gt;根据 VAD 返回值分支&lt;/b&gt;&lt;br/&gt;0：当前PCM加入ASR缓存&lt;br/&gt;1：语音结束，触发ASR&lt;br/&gt;2：无语音超时，不做ASR&lt;br/&gt;3：超过15秒，触发ASR" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="440" y="585" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-vad-no-speech" parent="L-server-local" vertex="1" value="&lt;b&gt;无语音消息入发送队列&lt;/b&gt;&lt;br/&gt;is_vad=true；约3秒无语音&lt;br/&gt;type=vad / state=no_speech&lt;br/&gt;入 ws_send_queue；不做ASR" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="440" y="760" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-asr-buffer-note" parent="L-server-local" vertex="1" value="&lt;b&gt;ASR 结束分支的边界&lt;/b&gt;&lt;br/&gt;返回1/3时不追加当前帧&lt;br/&gt;ASR识别旧缓存并清空&lt;br/&gt;is_vad=true 后忽略本轮后续" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="1110" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-asr-buffer" parent="L-server-local" vertex="1" value="&lt;b&gt;独立 ASR PCM 缓存&lt;/b&gt;&lt;br/&gt;asr_add_audio_buffer(pcm_data)&lt;br/&gt;VAD返回0时加入当前PCM&lt;br/&gt;独立NumPy缓存，结束时识别" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="860" y="410" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-local-asr" parent="L-server-local" vertex="1" value="&lt;b&gt;本地 SenseVoiceSmall ASR&lt;/b&gt;&lt;br/&gt;FunASR；默认本地CPU&lt;br/&gt;识别完整ASR audio_buffer&lt;br/&gt;后处理文本；随后清空缓存" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="860" y="585" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-asr-result" parent="L-server-local" vertex="1" value="&lt;b&gt;本轮 ASR 识别文本&lt;/b&gt;&lt;br/&gt;正常识别结果 asr_res&lt;br/&gt;一条路径发送客户端&lt;br/&gt;另一条路径提交聊天任务" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="860" y="760" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-asr-json-queue" parent="L-server-asr-send" vertex="1" value="&lt;b&gt;ASR 消息入发送队列&lt;/b&gt;&lt;br/&gt;{&amp;quot;type&amp;quot;:&amp;quot;asr&amp;quot;,&amp;quot;text&amp;quot;:&amp;quot;...&amp;quot;}&lt;br/&gt;ws_send_queue 保存JSON文本&lt;br/&gt;发送协程取出后 websocket.send" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="65" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-client-asr-json" parent="L-client-asr" vertex="1" value="&lt;b&gt;客户端收到 ASR 文本&lt;/b&gt;&lt;br/&gt;handle_asr_message&lt;br/&gt;将识别文字交给应用&lt;br/&gt;通过事件进入thinking状态" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="50" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-chat-task" parent="L-server-local" vertex="1" value="&lt;b&gt;线程池中的聊天任务&lt;/b&gt;&lt;br/&gt;submit_task(chat_start_task)&lt;br/&gt;输入：ASR识别文本&lt;br/&gt;TaskManager最多5个线程" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="440" y="935" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-intent-service" parent="L-server-local" vertex="1" value="&lt;b&gt;本地意图服务编排&lt;/b&gt;&lt;br/&gt;IntentService.detect_intent&lt;br/&gt;注册工具列表组成提示词&lt;br/&gt;独立LLMModel发非流式请求" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="860" y="935" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-intent-cloud" parent="L-aliyun-llm" vertex="1" value="&lt;b&gt;云端意图识别 qwen-turbo&lt;/b&gt;&lt;br/&gt;阿里云百炼兼容接口&lt;br/&gt;非流式返回function_call JSON&lt;br/&gt;与聊天使用独立模型对象" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF0DB;strokeColor=#D0A061;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="55" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-intent-branches" parent="L-server-local" vertex="1" value="&lt;b&gt;本地解析与处理意图&lt;/b&gt;&lt;br/&gt;continue_chat：继续&lt;br/&gt;exit_chat：发送chat/end&lt;br/&gt;其他函数：发送function_call&lt;br/&gt;之后均继续生成语音回复" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="860" y="1110" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-intent-controls" parent="L-server-local" vertex="1" value="&lt;b&gt;控制消息入发送队列&lt;/b&gt;&lt;br/&gt;exit_chat → chat/end&lt;br/&gt;其他函数 → function_call&lt;br/&gt;入发送队列，可先于音频" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="440" y="1110" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-intent-history-note" parent="L-server-local" vertex="1" value="&lt;b&gt;函数结果历史结构限制&lt;/b&gt;&lt;br/&gt;history_list当前为嵌套列表&lt;br/&gt;ChatService预期逐项字典&lt;br/&gt;当前函数结果历史未加入" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="1285" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-chat-history" parent="L-server-local" vertex="1" value="&lt;b&gt;聊天历史 messages 列表&lt;/b&gt;&lt;br/&gt;system + 历次user/assistant&lt;br/&gt;请求前加入当前user&lt;br/&gt;每轮请求携带已有历史" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="440" y="1285" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-chat-request" parent="L-server-local" vertex="1" value="&lt;b&gt;聊天请求与生成器&lt;/b&gt;&lt;br/&gt;ChatService.generate_chat_response&lt;br/&gt;is_stream=True → answers生成器&lt;br/&gt;循环消费时发起云端请求" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="860" y="1285" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-chat-cloud" parent="L-aliyun-llm" vertex="1" value="&lt;b&gt;云端聊天 qwen-turbo&lt;/b&gt;&lt;br/&gt;OpenAI兼容接口&lt;br/&gt;stream=True&lt;br/&gt;持续返回delta.content" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF0DB;strokeColor=#D0A061;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="20" y="295" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-chat-delta" parent="L-server-local" vertex="1" value="&lt;b&gt;消费流式回复片段&lt;/b&gt;&lt;br/&gt;for chunk in stream&lt;br/&gt;yield delta → text_chunk&lt;br/&gt;片段即送TTS，同时累计全文" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="860" y="1460" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-chat-full-text" parent="L-server-local" vertex="1" value="&lt;b&gt;同时累计完整回复&lt;/b&gt;&lt;br/&gt;full_text += delta&lt;br/&gt;不断拼接本轮回复&lt;br/&gt;无需等齐再提交TTS" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="440" y="1460" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-chat-assistant-history" parent="L-server-local" vertex="1" value="&lt;b&gt;流结束后保存 assistant&lt;/b&gt;&lt;br/&gt;保存assistant：full_text&lt;br/&gt;下一轮可携带完整回复&lt;br/&gt;语音提交不等待此步骤" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="440" y="1635" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="N-tts-entry" parent="L-server-local" vertex="1" value="&lt;b&gt;流式 TTS 入口&lt;/b&gt;&lt;br/&gt;tts_speech_stream(text_chunk)&lt;br/&gt;逐段提交，流完tts_close()&lt;br/&gt;接续：云端PCM音频回调" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="860" y="1635" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="E-recv-unpack" parent="1" edge="1" source="N-server-ws-binary" target="N-server-unpack" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-unpack-decode" parent="1" edge="1" source="N-server-unpack" target="N-server-decode" value="版本及类型合法" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-decode-vad" parent="1" edge="1" source="N-server-decode" target="N-server-vad" value="PCM NumPy数组" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-vad-return-edge" parent="1" edge="1" source="N-server-vad" target="N-vad-return" value="返回值" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-vad-note-edge" parent="1" edge="1" source="N-server-vad" target="N-vad-boundary-note" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#8B9AAC;strokeWidth=1.5;fontColor=#8B9AAC;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-pcm-size-note-edge" parent="1" edge="1" source="N-server-decode" target="N-pcm-size-note" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#8B9AAC;strokeWidth=1.5;fontColor=#8B9AAC;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="30" y="635" />
+              <mxPoint x="30" y="1160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-return0-buffer" parent="1" edge="1" source="N-vad-return" target="N-asr-buffer" value="0：PCM入缓存" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="845" y="810" />
+              <mxPoint x="845" y="635" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-return13-asr" parent="1" edge="1" source="N-vad-return" target="N-local-asr" value="1 / 3：触发识别" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-asr-buffer-input" parent="1" edge="1" source="N-asr-buffer" target="N-local-asr" value="触发后读取缓存" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-return2-no-speech" parent="1" edge="1" source="N-vad-return" target="N-vad-no-speech" value="2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-asr-text" parent="1" edge="1" source="N-local-asr" target="N-asr-result" value="识别结果文本" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-text-asr-json" parent="1" edge="1" source="N-asr-result" target="N-asr-json-queue" value="JSON入队" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="985" />
+              <mxPoint x="1260" y="810" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-asr-json-client" parent="1" edge="1" source="N-asr-json-queue" target="N-client-asr-json" value="发送ASR文本" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-text-chat-task" parent="1" edge="1" source="N-asr-result" target="N-chat-task" value="提交线程池任务" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1060" y="1070" />
+              <mxPoint x="640" y="1070" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-task-intent" parent="1" edge="1" source="N-chat-task" target="N-intent-service" value="识别文本" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-intent-request" parent="1" edge="1" source="N-intent-service" target="N-intent-cloud" value="文字 + 工具提示词" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="1160" />
+              <mxPoint x="1260" y="1270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-intent-response" parent="1" edge="1" source="N-intent-cloud" target="N-intent-branches" value="返回JSON后本地解析" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="1335" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-intent-controls-edge" parent="1" edge="1" source="N-intent-branches" target="N-intent-controls" value="退出或其他函数" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-intent-history-note-edge" parent="1" edge="1" source="N-intent-controls" target="N-intent-history-note" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#8B9AAC;strokeWidth=1.5;fontColor=#8B9AAC;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="1420" />
+              <mxPoint x="220" y="1420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-intent-chat-next" parent="1" edge="1" source="N-intent-branches" target="N-chat-request" value="所有分支继续聊天" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-history-chat-request" parent="1" edge="1" source="N-chat-history" target="N-chat-request" value="messages" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-chat-cloud-request" parent="1" edge="1" source="N-chat-request" target="N-chat-cloud" value="messages；stream=True" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-chat-stream-delta" parent="1" edge="1" source="N-chat-cloud" target="N-chat-delta" value="流式delta" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1480" y="1600" />
+              <mxPoint x="1060" y="1600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-delta-full-text" parent="1" edge="1" source="N-chat-delta" target="N-chat-full-text" value="同一个delta" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-full-text-assistant" parent="1" edge="1" source="N-chat-full-text" target="N-chat-assistant-history" value="流结束后" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-assistant-history-loop" parent="1" edge="1" source="N-chat-assistant-history" target="N-chat-history" value="保存完整assistant" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="1860" />
+              <mxPoint x="410" y="1510" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-delta-tts" parent="1" edge="1" source="N-chat-delta" target="N-tts-entry" value="text_chunk" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="H-footer" parent="1" vertex="1" value="Echo-Mate · 按工作区源码核对 · 更新于2026-10-09 · 节点与连线均可继续在draw.io中编辑" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=12;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="1951" width="1710" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="04 TTS 与音频回传" id="tts-return">
+    <mxGraphModel dx="1800" dy="1940" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1940" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="H-title" parent="1" vertex="1" value="04 TTS 与音频回传" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=30;fontStyle=1;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="22" width="1710" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="H-subtitle" parent="1" vertex="1" value="文字提交、云端返回PCM、音频编码发送与完成通知分开画出；PCM队列与发送队列承担不同职责。" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=15;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="78" width="1710" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="H-legend" parent="1" vertex="1" value="蓝色＝客户端 C++   绿色＝Python服务端   橙色＝云端模型   紫色＝队列   黄色＝条件   实线＝数据/调用   虚线＝事件/控制" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=13;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="116" width="1710" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="L-call" parent="1" vertex="1" value="文字提交 / SDK / 云端 TTS" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#FFF0DB;swimlaneFillColor=#FFFFFF;strokeColor=#D0A061;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="40" y="175" width="510" height="1590" as="geometry" />
+        </mxCell>
+        <mxCell id="L-audio" parent="1" vertex="1" value="Python服务端：音频处理与发送" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF6EF;swimlaneFillColor=#FFFFFF;strokeColor=#77A88B;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="610" y="175" width="510" height="1590" as="geometry" />
+        </mxCell>
+        <mxCell id="L-end" parent="1" vertex="1" value="完成消息 / 协议 / 实现边界" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF6EF;swimlaneFillColor=#FFFFFF;strokeColor=#77A88B;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="1180" y="175" width="580" height="1590" as="geometry" />
+        </mxCell>
+        <mxCell id="N-text" parent="L-call" vertex="1" value="&lt;b&gt;流式聊天文字片段&lt;/b&gt;&lt;br/&gt;for text_chunk in answers&lt;br/&gt;片段不保证是完整句子" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="65" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-service" parent="L-call" vertex="1" value="&lt;b&gt;TTSService 提交文字&lt;/b&gt;&lt;br/&gt;tts_speech_stream(text_chunk)&lt;br/&gt;当前直接提交，未走TTS任务队列" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="250" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-model" parent="L-call" vertex="1" value="&lt;b&gt;TTSModel 调用 SDK&lt;/b&gt;&lt;br/&gt;SpeechSynthesizer&lt;br/&gt;streaming_call(text_chunk)&lt;br/&gt;listening 时 tts_set 配置回调" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="435" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-cloud" parent="L-call" vertex="1" value="&lt;b&gt;阿里云 CosyVoice 合成&lt;/b&gt;&lt;br/&gt;cosyvoice-v1 / longxiaochun&lt;br/&gt;云端生成16kHz单声道16位PCM" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF0DB;strokeColor=#D0A061;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="630" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-sdk" parent="L-call" vertex="1" value="&lt;b&gt;SDK 接收云端结果&lt;/b&gt;&lt;br/&gt;音频数据 → on_data&lt;br/&gt;合成完成 → on_complete" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="820" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-close" parent="L-call" vertex="1" value="&lt;b&gt;所有文字提交结束&lt;/b&gt;&lt;br/&gt;循环结束后调用 tts_close()&lt;br/&gt;SDK streaming_complete()&lt;br/&gt;通知云端结束本次文字输入" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="1035" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-init" parent="L-call" vertex="1" value="&lt;b&gt;创建对象与合成请求分开&lt;/b&gt;&lt;br/&gt;启动时创建 TTSService / TTSModel&lt;br/&gt;listening 时登记本轮回调&lt;br/&gt;TTSGenerateThread.start 当前被注释&lt;br/&gt;chat_start_task 直接逐段提交文字" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="1245" width="400" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="N-data" parent="L-audio" vertex="1" value="&lt;b&gt;_tts_on_data(data)&lt;/b&gt;&lt;br/&gt;收到一块PCM字节&lt;br/&gt;回调块大小不保证等于一帧" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="65" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-audio-queue" parent="L-audio" vertex="1" value="&lt;b&gt;audio_queue&lt;/b&gt;&lt;br/&gt;PCM 块等待编码&lt;br/&gt;self.audio_queue.put(data)" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="250" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-slice" parent="L-audio" vertex="1" value="&lt;b&gt;AudioSendThread.run&lt;/b&gt;&lt;br/&gt;拼接 remain_data&lt;br/&gt;按默认1280字节切完整PCM帧" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="435" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-encode" parent="L-audio" vertex="1" value="&lt;b&gt;Opus 编码&lt;/b&gt;&lt;br/&gt;encode_audio(frame_slice)&lt;br/&gt;默认输入一帧40ms PCM&lt;br/&gt;编码结果字节数可变" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="630" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-pack" parent="L-audio" vertex="1" value="&lt;b&gt;添加应用协议包头&lt;/b&gt;&lt;br/&gt;pack_bin_frame(...)&lt;br/&gt;struct.pack(&amp;quot;!HHI&amp;quot;,...) + Opus&lt;br/&gt;当前音频 type=0" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="825" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-ws-queue" parent="L-audio" vertex="1" value="&lt;b&gt;ws_send_queue&lt;/b&gt;&lt;br/&gt;二进制包和JSON共用队列&lt;br/&gt;已经入队的数据按先进先出取出" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="1020" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-send" parent="L-audio" vertex="1" value="&lt;b&gt;process_send_queue()&lt;/b&gt;&lt;br/&gt;await websocket.send(data)&lt;br/&gt;bytes → 二进制；str → 文本" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="1215" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-client" parent="L-audio" vertex="1" value="&lt;b&gt;客户端接收&lt;/b&gt;&lt;br/&gt;完整WebSocket消息 → 回调&lt;br/&gt;解包、解码与播放见第05页" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="1410" width="400" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-complete" parent="L-end" vertex="1" value="&lt;b&gt;_tts_on_complete()&lt;/b&gt;&lt;br/&gt;云端合成完成回调&lt;br/&gt;直接写入 ws_send_queue" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="65" width="470" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-json" parent="L-end" vertex="1" value="&lt;b&gt;TTS 完成 JSON&lt;/b&gt;&lt;br/&gt;{&amp;quot;type&amp;quot;:&amp;quot;tts&amp;quot;,&amp;quot;state&amp;quot;:&amp;quot;end&amp;quot;}&lt;br/&gt;客户端设置 tts_completed=true" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF6EF;strokeColor=#77A88B;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="250" width="470" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="N-timing" parent="L-end" vertex="1" value="&lt;b&gt;完成通知与PCM经过不同路径&lt;/b&gt;&lt;br/&gt;PCM先入audio_queue，再编码入发送队列&lt;br/&gt;完成通知直接入发送队列&lt;br/&gt;tts/end 可能先于最后一个音频包&lt;br/&gt;合成完成不等于客户端播放完成" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="475" width="470" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="N-protocol" parent="L-end" vertex="1" value="&lt;b&gt;BinProtocol：8字节应用包头&lt;/b&gt;&lt;br/&gt;偏移0：版本，2字节&lt;br/&gt;偏移2：类型，2字节&lt;br/&gt;偏移4：负载长度，4字节&lt;br/&gt;偏移8：Opus负载，N字节&lt;br/&gt;正常消息内容总长 = 8 + N" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="725" width="470" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="N-units" parent="L-end" vertex="1" value="&lt;b&gt;默认一帧音频大小&lt;/b&gt;&lt;br/&gt;16000Hz × 40ms = 640采样值&lt;br/&gt;单声道16位PCM：640 × 2 = 1280字节&lt;br/&gt;这是编码前PCM大小&lt;br/&gt;Opus负载长度由编码结果决定&lt;br/&gt;WebSocket自身帧头由库处理" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="985" width="470" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="N-tail" parent="L-end" vertex="1" value="&lt;b&gt;末帧的当前实现&lt;/b&gt;&lt;br/&gt;不足一帧只保留 remain_data&lt;br/&gt;没有合成结束时补齐发送的逻辑&lt;br/&gt;残余拼接后未统一清空&lt;br/&gt;此图描述源码现状，未修改业务代码" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="55" y="1255" width="470" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e1" parent="1" edge="1" source="N-text" target="N-service" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e2" parent="1" edge="1" source="N-service" target="N-model" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e3" parent="1" edge="1" source="N-model" target="N-cloud" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e4" parent="1" edge="1" source="N-cloud" target="N-sdk" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e5" parent="1" edge="1" source="N-text" target="N-close" value="循环结束" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="65" y="302" />
+              <mxPoint x="65" y="1272" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e6" parent="1" edge="1" source="N-close" target="N-cloud" value="结束输入" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="525" y="1272" />
+              <mxPoint x="525" y="867" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e7" parent="1" edge="1" source="N-data" target="N-audio-queue" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e8" parent="1" edge="1" source="N-audio-queue" target="N-slice" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e9" parent="1" edge="1" source="N-slice" target="N-encode" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e10" parent="1" edge="1" source="N-encode" target="N-pack" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e11" parent="1" edge="1" source="N-pack" target="N-ws-queue" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e12" parent="1" edge="1" source="N-ws-queue" target="N-send" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e13" parent="1" edge="1" source="N-send" target="N-client" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e14" parent="1" edge="1" source="N-sdk" target="N-data" value="音频回调" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="1057" />
+              <mxPoint x="580" y="302" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e15" parent="1" edge="1" source="N-complete" target="N-json" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e16" parent="1" edge="1" source="N-sdk" target="N-complete" value="完成回调" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="1057" />
+              <mxPoint x="580" y="1840" />
+              <mxPoint x="1740" y="1840" />
+              <mxPoint x="1740" y="301" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e17" parent="1" edge="1" source="N-json" target="N-ws-queue" value="直接入发送队列" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1160" y="486" />
+              <mxPoint x="1160" y="1257" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="H-footer" parent="1" vertex="1" value="Echo-Mate · 按工作区源码核对 · 更新于2026-10-09 · 节点与连线均可继续在draw.io中编辑" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=12;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="1911" width="1710" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="05 回调、解包、播放与结束" id="client-playback">
+    <mxGraphModel dx="1800" dy="2030" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="2030" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="H-title" parent="1" vertex="1" value="05 回调、解包、播放与结束" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=30;fontStyle=1;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="22" width="1710" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="H-subtitle" parent="1" vertex="1" value="网络回调解码入队，PortAudio回调输出；状态线程消费事件，Speaking线程检查本轮是否结束。" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=15;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="78" width="1710" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="H-legend" parent="1" vertex="1" value="蓝色＝客户端 C++   绿色＝Python服务端   橙色＝云端模型   紫色＝队列   黄色＝条件   实线＝数据/调用   虚线＝事件/控制" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=13;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="116" width="1710" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="L-rx" parent="1" vertex="1" value="网络回调 / 客户端封装" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="40" y="175" width="405" height="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="L-dec" parent="1" vertex="1" value="业务处理 / 解包与解码" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="465" y="175" width="405" height="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="L-out" parent="1" vertex="1" value="音频输出 / PortAudio" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="890" y="175" width="405" height="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="L-fin" parent="1" vertex="1" value="完成消息 / 状态切换" style="swimlane;html=1;startSize=42;horizontal=1;rounded=1;arcSize=8;fillColor=#EAF2FF;swimlaneFillColor=#FFFFFF;strokeColor=#7599C7;fontSize=16;fontColor=#30455D;fontStyle=1;fontFamily=Noto Sans CJK SC;align=left;spacingLeft=16;collapsible=0;container=1;">
+          <mxGeometry x="1315" y="175" width="445" height="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="N-register" parent="L-rx" vertex="1" value="&lt;b&gt;构造时注册消息回调&lt;/b&gt;&lt;br/&gt;set_message_handler(bind(...))&lt;br/&gt;保存成员函数、this、_1、_2" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="70" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-library" parent="L-rx" vertex="1" value="&lt;b&gt;库取得完整消息指针&lt;/b&gt;&lt;br/&gt;msg = processor-&amp;gt;get_message()&lt;br/&gt;m_message_handler(hdl,msg)&lt;br/&gt;按位置：_1=hdl，_2=msg" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="260" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-member" parent="L-rx" vertex="1" value="&lt;b&gt;WebSocketClient::on_message&lt;/b&gt;&lt;br/&gt;msg 指向库创建的消息对象&lt;br/&gt;形参由库调用时传入" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="455" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-payload" parent="L-rx" vertex="1" value="&lt;b&gt;读取类型和消息内容&lt;/b&gt;&lt;br/&gt;get_opcode()：文本/二进制&lt;br/&gt;get_payload()：内容字节" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="645" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-lambda" parent="L-rx" vertex="1" value="&lt;b&gt;应用层回调 lambda&lt;/b&gt;&lt;br/&gt;SetMessageCallback → on_message_&lt;br/&gt;调用 app_handler.ws_msg_handle" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="835" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-handler" parent="L-rx" vertex="1" value="&lt;b&gt;WSHandler::ws_msg_handle&lt;/b&gt;&lt;br/&gt;二进制 → 解包/解码/入队&lt;br/&gt;文本JSON → 完成与状态标志" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1025" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-first" parent="L-rx" vertex="1" value="&lt;b&gt;本轮首条回复音频事件&lt;/b&gt;&lt;br/&gt;speaking_msg_received → eventQueue&lt;br/&gt;thinking → speaking&lt;br/&gt;事件在解包之前入队" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1215" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-bind-note" parent="L-rx" vertex="1" value="&lt;b&gt;bind 与参数来源&lt;/b&gt;&lt;br/&gt;_1/_2按调用实参位置对应&lt;br/&gt;构造时保存，收到消息时执行&lt;br/&gt;头文件声明不会产生消息数据" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1435" width="345" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="N-raw" parent="L-dec" vertex="1" value="&lt;b&gt;原始应用协议包&lt;/b&gt;&lt;br/&gt;输入：message.data() / size()&lt;br/&gt;输出：protocol_info / opus_data" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="70" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-unpack" parent="L-dec" vertex="1" value="&lt;b&gt;UnpackBinFrame&lt;/b&gt;&lt;br/&gt;至少8字节，按0/2/4偏移读取&lt;br/&gt;ntohs / ntohl 转换包头整数&lt;br/&gt;长度足够后从偏移8处取Opus" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="260" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-info" parent="L-dec" vertex="1" value="&lt;b&gt;解包结果&lt;/b&gt;&lt;br/&gt;protocol_info：版本、类型&lt;br/&gt;opus_data：不含应用包头&lt;br/&gt;解包这一步尚未解码音频" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="455" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-check" parent="L-dec" vertex="1" value="&lt;b&gt;检查版本和类型&lt;/b&gt;&lt;br/&gt;version 等于客户端配置&lt;br/&gt;type == 0；符合后继续" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="650" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-decode" parent="L-dec" vertex="1" value="&lt;b&gt;AudioProcess::decode&lt;/b&gt;&lt;br/&gt;opus_decode：Opus → PCM&lt;br/&gt;实际返回采样数决定vector大小" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="845" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-pcm-queue" parent="L-dec" vertex="1" value="&lt;b&gt;PCM 播放队列&lt;/b&gt;&lt;br/&gt;addFrameToPlaybackQueue(pcm_data)&lt;br/&gt;playbackQueue 保存 int16_t 值" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1045" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-decode-note" parent="L-dec" vertex="1" value="&lt;b&gt;数据大小与实现边界&lt;/b&gt;&lt;br/&gt;40ms PCM：640值 / 1280字节&lt;br/&gt;Opus大小可变，应用包大小8+N&lt;br/&gt;960是每声道输出容量，非固定结果&lt;br/&gt;调用处当前未检查decode返回值" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1335" width="345" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="N-start" parent="L-out" vertex="1" value="&lt;b&gt;Speaking::Enter&lt;/b&gt;&lt;br/&gt;调用 startPlaying()&lt;br/&gt;与首帧入队顺序是异步的" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="70" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-open" parent="L-out" vertex="1" value="&lt;b&gt;Pa_OpenStream&lt;/b&gt;&lt;br/&gt;默认设备 / paInt16 / 本地采样率&lt;br/&gt;注册playCallback和this(userData)" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="260" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-stream" parent="L-out" vertex="1" value="&lt;b&gt;Pa_StartStream&lt;/b&gt;&lt;br/&gt;启动音频输出流&lt;br/&gt;需要下一段音频时调用回调" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="450" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-play" parent="L-out" vertex="1" value="&lt;b&gt;playCallback&lt;/b&gt;&lt;br/&gt;从userData取AudioProcess对象&lt;br/&gt;output 指向 outputBuffer" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="640" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-front" parent="L-out" vertex="1" value="&lt;b&gt;取播放队列首帧&lt;/b&gt;&lt;br/&gt;front() / min(请求量,当前帧量)&lt;br/&gt;空队列或不足部分补静音" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="835" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-copy" parent="L-out" vertex="1" value="&lt;b&gt;填充音频输出缓冲区&lt;/b&gt;&lt;br/&gt;std::copy 复制PCM采样值&lt;br/&gt;pop/erase 已复制的数据&lt;br/&gt;return paContinue 保持流运行" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1035" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-speaker" parent="L-out" vertex="1" value="&lt;b&gt;设备输出声音&lt;/b&gt;&lt;br/&gt;PortAudio / 系统音频后端&lt;br/&gt;→ 声卡与扬声器" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1245" width="345" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-copy-note" parent="L-out" vertex="1" value="&lt;b&gt;出队与设备完成分开&lt;/b&gt;&lt;br/&gt;复制完成仅表示已提交输出数据&lt;br/&gt;设备还可能有待输出缓冲&lt;br/&gt;队列空时仍持续输出静音" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1445" width="345" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="N-json" parent="L-fin" vertex="1" value="&lt;b&gt;文本完成通知&lt;/b&gt;&lt;br/&gt;tts/state=end → tts_completed&lt;br/&gt;chat/dialogue=end → 对话结束标志" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="70" width="385" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-poll" parent="L-fin" vertex="1" value="&lt;b&gt;Speaking::Run 轮询检查&lt;/b&gt;&lt;br/&gt;每轮等待500ms再检查&lt;br/&gt;tts_completed &amp;amp;&amp;amp; 队列空&lt;br/&gt;成立后额外等待500ms" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="275" width="385" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-choose" parent="L-fin" vertex="1" value="&lt;b&gt;dialogue_completed？&lt;/b&gt;&lt;br/&gt;false → speaking_end&lt;br/&gt;true → dialogue_end" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF6D9;strokeColor=#C8AE58;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="485" width="385" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-events" parent="L-fin" vertex="1" value="&lt;b&gt;结束事件进入 eventQueue&lt;/b&gt;&lt;br/&gt;状态线程消费事件&lt;br/&gt;StateMachine::ChangeState" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F0EAFB;strokeColor=#A88AC6;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="695" width="385" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-exit" parent="L-fin" vertex="1" value="&lt;b&gt;Speaking::Exit&lt;/b&gt;&lt;br/&gt;清播放队列，调用stopPlaying&lt;br/&gt;停止并join本状态检查线程" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="905" width="385" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-stop" parent="L-fin" vertex="1" value="&lt;b&gt;Pa_StopStream / 关闭流&lt;/b&gt;&lt;br/&gt;等待已提交的待输出缓冲区&lt;br/&gt;Pa_CloseStream / Pa_Terminate" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1115" width="385" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-next" parent="L-fin" vertex="1" value="&lt;b&gt;进入下一状态&lt;/b&gt;&lt;br/&gt;speaking_end → Listening&lt;br/&gt;dialogue_end → Idle&lt;br/&gt;先旧Exit，再新Enter" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EAF2FF;strokeColor=#7599C7;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1325" width="385" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="N-timing-note" parent="L-fin" vertex="1" value="&lt;b&gt;结束条件是当前程序的判断&lt;/b&gt;&lt;br/&gt;TTS完成消息可能先于尾部音频&lt;br/&gt;额外500ms不是设备完成通知&lt;br/&gt;停止流只等待已提交给流的数据" style="rounded=1;arcSize=12;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#F4F6FA;strokeColor=#BDC7D3;strokeWidth=1.5;fontColor=#24364E;fontSize=15;fontFamily=Noto Sans CJK SC;align=center;verticalAlign=middle;spacing=8;">
+          <mxGeometry x="30" y="1535" width="385" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e1" parent="1" edge="1" source="N-register" target="N-library" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e2" parent="1" edge="1" source="N-library" target="N-member" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e3" parent="1" edge="1" source="N-member" target="N-payload" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e4" parent="1" edge="1" source="N-payload" target="N-lambda" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e5" parent="1" edge="1" source="N-lambda" target="N-handler" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e6" parent="1" edge="1" source="N-raw" target="N-unpack" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e7" parent="1" edge="1" source="N-unpack" target="N-info" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e8" parent="1" edge="1" source="N-info" target="N-check" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e9" parent="1" edge="1" source="N-check" target="N-decode" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e10" parent="1" edge="1" source="N-decode" target="N-pcm-queue" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e11" parent="1" edge="1" source="N-start" target="N-open" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e12" parent="1" edge="1" source="N-open" target="N-stream" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e13" parent="1" edge="1" source="N-stream" target="N-play" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e14" parent="1" edge="1" source="N-play" target="N-front" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e15" parent="1" edge="1" source="N-front" target="N-copy" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e16" parent="1" edge="1" source="N-copy" target="N-speaker" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e17" parent="1" edge="1" source="N-json" target="N-poll" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e18" parent="1" edge="1" source="N-poll" target="N-choose" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e19" parent="1" edge="1" source="N-choose" target="N-events" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e20" parent="1" edge="1" source="N-events" target="N-exit" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e21" parent="1" edge="1" source="N-exit" target="N-stop" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e22" parent="1" edge="1" source="N-stop" target="N-next" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e23" parent="1" edge="1" source="N-handler" target="N-first" value="首条二进制" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-e24" parent="1" edge="1" source="N-handler" target="N-raw" value="完整二进制内容" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="455" y="1262" />
+              <mxPoint x="455" y="307" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e25" parent="1" edge="1" source="N-pcm-queue" target="N-front" value="PCM采样值" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#526E8C;strokeWidth=1.5;fontColor=#526E8C;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="882" y="1282" />
+              <mxPoint x="882" y="1072" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e26" parent="1" edge="1" source="N-first" target="N-start" value="状态线程处理首条回复事件" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="25" y="1452" />
+              <mxPoint x="25" y="155" />
+              <mxPoint x="1302" y="155" />
+              <mxPoint x="1302" y="307" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-e27" parent="1" edge="1" source="N-handler" target="N-json" value="文本完成消息" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=18;html=1;endArrow=block;endFill=1;strokeColor=#B07A39;strokeWidth=1.5;fontColor=#B07A39;fontSize=12;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="455" y="1262" />
+              <mxPoint x="455" y="1930" />
+              <mxPoint x="1740" y="1930" />
+              <mxPoint x="1740" y="307" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="H-footer" parent="1" vertex="1" value="Echo-Mate · 按工作区源码核对 · 更新于2026-10-09 · 节点与连线均可继续在draw.io中编辑" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#2B4059;fontSize=12;fontStyle=0;fontFamily=Noto Sans CJK SC;">
+          <mxGeometry x="40" y="2001" width="1710" height="22" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

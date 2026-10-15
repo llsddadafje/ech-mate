@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device" pages="2" compressed="false">
+  <diagram id="echo-client-lvgl-threads" name="01 LVGL 集成：进程与线程">
+    <mxGraphModel dx="2100" dy="1790" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2100" pageHeight="1790" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Echo-Mate Client · LVGL 集成中的进程与线程" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fillColor=none;strokeColor=none;spacing=0;fontColor=#0F172A;fontSize=32;fontStyle=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="2020" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="DeskBot 实际集成路径：LVGL 页面 → C 接口 → C++ Application。以下聚焦聊天功能，其他 GUI / 驱动 / 库内部线程未展开。" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fillColor=none;strokeColor=none;spacing=0;fontColor=#475569;fontSize=18;fontStyle=0;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="2020" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="process" value="&lt;b&gt;DeskBot 进程 · 可执行文件 bin/main&lt;/b&gt;　｜　LVGL、AIchat-c-interface 和 AIChatCore 链接在同一个程序中" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;strokeWidth=2;fontSize=21;spacing=22;" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="1690" height="1370" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-main" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;LVGL / GUI 主线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;main() 循环执行 lv_timer_handler()&lt;br&gt;首次页面定时回调 → start_ai_chat()&lt;br&gt;先调用 create_aichat_app() 创建对象&lt;br&gt;再 pthread_create() 启动 ai_chat_thread&lt;br&gt;返回后继续处理界面、状态查询和意图&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;DeskBot_demo/main.c:59 · app_ChatBotPage.c:23&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="80" y="240" width="470" height="245" as="geometry" />
+        </mxCell>
+        <mxCell id="c-api" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;C 接口层（函数封装，不是线程）&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;AIchat_c_interface.cc · extern &amp;quot;C&amp;quot;&lt;br&gt;create_aichat_app() → new Application&lt;br&gt;run_aichat_app() → app-&amp;gt;Run()&lt;br&gt;stop_aichat_app() → app-&amp;gt;Stop()&lt;br&gt;get_aichat_app_state() / ..._intent()&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;由调用方线程执行；通过 void* 传递 Application 指针&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="240" width="460" height="245" as="geometry" />
+        </mxCell>
+        <mxCell id="application" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;同进程中的 Application 对象&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;app_instance 指向这个 C++ 对象&lt;br&gt;拥有状态机、WebSocket 和音频处理器&lt;br&gt;eventQueue_ / IntentQueue_ 为共享队列&lt;br&gt;多个线程通过同一个对象指针访问&lt;br&gt;接口调用是进程内函数调用&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;AIchat_c_interface.cc:12 · Application.h:28&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="240" width="470" height="245" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-chat" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;AI Chat 运行线程 · ai_chat_thread&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;ai_chat_thread_func()&lt;br&gt;→ run_aichat_app(app_instance)&lt;br&gt;→ Application::Run()&lt;br&gt;创建状态机线程后，join() 等待其结束&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;app_ChatBotPage.c:12、43 · Application.cc:56&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="80" y="600" width="470" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="state" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;状态机事件线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;state_trans_thread_&lt;br&gt;配置状态机，每 100 ms 检查事件队列&lt;br&gt;处理事件 → 状态切换&lt;br&gt;各状态 Enter() / Exit() 在此执行&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;Application.cc:40 · StateMachine.cc:71&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="600" width="460" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="ws" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;WebSocket 网络线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;WebSocketClient::thread_&lt;br&gt;ws_client_.run() 处理网络 I/O&lt;br&gt;消息回调中解析 JSON / 解码 Opus&lt;br&gt;投递状态事件、音频和意图数据&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;WebsocketClient.cc:36 · WS_Handler.cc:16&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#0D9488;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="600" width="470" height="205" as="geometry" />
+        </mxCell>
+        <mxCell id="server" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Server · 外部进程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;通过 WebSocket 通信&lt;br&gt;不属于 DeskBot 进程&lt;br&gt;线程 / 协程见 Server 图&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1790" y="620" width="260" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="workers" value="&lt;b&gt;状态工作线程：Idle / Listening / Speaking 正常情况下最多运行其中 1 条&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:16px&quot;&gt;旧状态 Exit() 先停止并 join() 工作线程，再进入新状态；Thinking 等状态没有自己的工作线程。&lt;/span&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#65A30D;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;dashed=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="80" y="900" width="1030" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="idle" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Idle 工作线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;录音队列 → Snowboy&lt;br&gt;本地检测唤醒词&lt;br&gt;投递 wake_detected 事件&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;Idle.cc:19&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#65A30D;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="105" y="1010" width="310" height="185" as="geometry" />
+        </mxCell>
+        <mxCell id="listening" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Listening 工作线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;录音队列 → Opus 编码&lt;br&gt;协议打包 → SendBinary()&lt;br&gt;提交网络音频发送&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;Listening.cc:24&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#65A30D;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="440" y="1010" width="310" height="185" as="geometry" />
+        </mxCell>
+        <mxCell id="speaking" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Speaking 工作线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;检查 TTS 标志和播放队列&lt;br&gt;判断本轮播放是否完成&lt;br&gt;投递播放 / 对话结束事件&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;Speaking.cc:17&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#65A30D;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="775" y="1010" width="310" height="185" as="geometry" />
+        </mxCell>
+        <mxCell id="audio" value="&lt;b&gt;PortAudio 后台回调&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:16px&quot;&gt;由音频库管理；实际采集和输出在这里执行。&lt;/span&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;dashed=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="900" width="470" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="record" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;录音回调 · recordCallback()&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;Idle / Listening 开启录音流&lt;br&gt;麦克风 PCM → 录音队列&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1235" y="990" width="420" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="play" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;播放回调 · playCallback()&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;Speaking 开启播放流&lt;br&gt;播放队列 → 音频输出缓冲区&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1235" y="1110" width="420" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="count" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;线程数与执行位置&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;聊天运行且处于 Idle / Listening / Speaking 稳定阶段：GUI 主线程 + ai_chat_thread + 状态机线程 + WebSocket 线程 + 当前状态工作线程 = 5 条所示业务线程。&lt;br&gt;PortAudio 和其他底层库线程另计；Thinking 阶段没有状态工作线程。此数量不是整个 DeskBot 进程的运行时总线程数。&lt;br&gt;LVGL 的 250 ms / 500 ms 定时回调在 GUI 主线程执行，不会每个定时器创建一条线程；C 接口层也没有独立线程。&lt;br&gt;Application::ws_msg_thread_ 只声明，没有启动；ws_msg_handle() 在 WebSocket 线程内执行。&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1280" width="1600" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="standalone" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;独立测试入口（补充）&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;直接运行 AIChat_demo/Client 的 AIChatClient 时，才使用 Client/main.cc，并由该进程的主线程直接调用 Application::Run()。&lt;br&gt;DeskBot 的 LVGL 集成方式不调用 Client/main.cc，也不会通过这条接口链再启动一个 AIChatClient 子进程。&lt;/div&gt;&lt;div style=&quot;font-size:12px;color:#64748B;line-height:1.3;margin-top:8px&quot;&gt;链接证据：DeskBot_demo/CMakeLists.txt:91；C 包装库：Client/c_interface/CMakeLists.txt:2&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1570" width="2010" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="source-note" value="路径简写：app_ChatBotPage.c 位于 DeskBot_demo/gui_app/pages/ui_ChatBotPage；其余 Client 文件位于 AIChat_demo/Client。" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fillColor=none;strokeColor=none;spacing=0;fontColor=#475569;fontSize=15;fontStyle=0;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1740" width="2010" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-api" value="调用 C 接口" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#D97706;fontColor=#D97706;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gui-main" target="c-api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="api-app" value="访问对象" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#D97706;fontColor=#D97706;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="c-api" target="application">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-ai-thread" value="start_ai_chat() → pthread_create()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#3B82F6;fontColor=#3B82F6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="gui-main" target="ai-chat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-state" value="Run() 创建" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#3B82F6;fontColor=#3B82F6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="ai-chat" target="state">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-ws" value="Startup 启动" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#0D9488;fontColor=#0D9488;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="state" target="ws">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ws-server" value="WebSocket" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#0D9488;fontColor=#0D9488;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=block;startFill=1;" edge="1" parent="1" source="ws" target="server">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-workers" value="Enter / Exit 管理工作线程" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#65A30D;fontColor=#65A30D;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.665;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="state" target="workers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-audio" value="Enter / Exit 启动 / 停止音频流" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#8B5CF6;fontColor=#8B5CF6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.8;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="state" target="audio">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1018" y="855" />
+              <mxPoint x="1445" y="855" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="echo-client-data-flow" name="02 线程间数据流与事件">
+    <mxGraphModel dx="1880" dy="2180" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1880" pageHeight="2180" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Echo-Mate Client · 线程之间如何协作" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fillColor=none;strokeColor=none;spacing=0;fontColor=#0F172A;fontSize=32;fontStyle=1;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1750" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="以下线程和队列均位于同一 DeskBot 进程（Server 除外）。同名线程重复绘制表示同一执行位置；第五区展示 LVGL 经 C 接口读取数据。" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fillColor=none;strokeColor=none;spacing=0;fontColor=#475569;fontSize=18;fontStyle=0;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="1780" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="capture-band" value="&lt;b&gt;① 录音 → 本地唤醒检测 / 上传服务器&lt;/b&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fontSize=22;" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="1790" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="microphone" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;麦克风&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;音频输入设备&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="300" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="record-cb" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;PortAudio 录音回调&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;recordCallback()&lt;br&gt;复制一帧 PCM&lt;br&gt;入队后 notify_one()&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="310" y="280" width="250" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="record-queue" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;recordedAudioQueue&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;录音 PCM 队列&lt;br&gt;mutex + 条件变量&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="620" y="290" width="250" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="idle-worker" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Idle 工作线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;取 PCM → Snowboy&lt;br&gt;检测成功 → 唤醒事件&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#65A30D;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="960" y="220" width="300" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="listen-worker" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Listening 工作线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;取 PCM → Opus 编码 → 打包&lt;br&gt;调用 SendBinary()&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#65A30D;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="960" y="375" width="300" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="upload-ws" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;WebSocket 线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;网络事件循环&lt;br&gt;发送音频数据&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#0D9488;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="375" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="upload-server" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Server&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;接收 Opus&lt;br&gt;外部进程&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1660" y="375" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="mic-record" value="PCM" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#8B5CF6;fontColor=#8B5CF6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="microphone" target="record-cb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="record-enqueue" value="入队" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#8B5CF6;fontColor=#8B5CF6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="record-cb" target="record-queue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="queue-idle" value="Idle 时" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#65A30D;fontColor=#65A30D;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="record-queue" target="idle-worker">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="915" y="324" />
+              <mxPoint x="915" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="queue-listen" value="Listening 时" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#65A30D;fontColor=#65A30D;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="record-queue" target="listen-worker">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="915" y="391" />
+              <mxPoint x="915" y="435" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="listen-upload" value="提交发送" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#0D9488;fontColor=#0D9488;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="listen-worker" target="upload-ws">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="upload-server-edge" value="Opus" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#0D9488;fontColor=#0D9488;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="upload-ws" target="upload-server">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="capture-note" value="Idle 和 Listening 按状态交替消费录音队列，不会同时处理这一路录音。" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fillColor=none;strokeColor=none;spacing=0;fontColor=#475569;fontSize=17;fontStyle=0;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="230" width="435" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="play-band" value="&lt;b&gt;② 服务器回复音频 → 解码 → 扬声器播放　（从右向左读）&lt;/b&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fontSize=22;" vertex="1" parent="1">
+          <mxGeometry x="40" y="570" width="1790" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="speaker" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;扬声器&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;音频输出设备&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="655" width="180" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="play-cb" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;PortAudio 播放回调&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;playCallback()&lt;br&gt;取 PCM → 填充 outputBuffer&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#8B5CF6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="330" y="645" width="300" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="play-queue" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;playbackQueue&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;待播放 PCM 队列&lt;br&gt;mutex 保护&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="730" y="645" width="280" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="download-ws" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;WebSocket 线程 / WSHandler&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;on_message() → ws_msg_handle()&lt;br&gt;二进制协议解包 → Opus 解码 → 入队&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#0D9488;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="635" width="420" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="download-server" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Server&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;TTS 音频&lt;br&gt;外部进程&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1650" y="655" width="150" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="download" value="Opus" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#0D9488;fontColor=#0D9488;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="download-server" target="download-ws">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decode-queue" value="PCM 入队" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#0D9488;fontColor=#0D9488;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="download-ws" target="play-queue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="queue-play" value="取帧" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#8B5CF6;fontColor=#8B5CF6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="play-queue" target="play-cb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="play-speaker" value="PCM" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#8B5CF6;fontColor=#8B5CF6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="play-cb" target="speaker">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="event-band" value="&lt;b&gt;③ 事件入队 → 状态机处理 → 管理状态和线程&lt;/b&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fontSize=22;" vertex="1" parent="1">
+          <mxGeometry x="40" y="870" width="1790" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="event-producers" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;事件生产者（已有线程）&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;Idle：wake_detected&lt;br&gt;Speaking：speaking_end / dialogue_end&lt;br&gt;WebSocket：ASR / VAD / 首包 / 故障&lt;br&gt;启动或外部 Stop() 调用也可投递事件&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#65A30D;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="950" width="390" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="event-queue" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;eventQueue_&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;EventQueue&amp;lt;int&amp;gt;&lt;br&gt;mutex + 条件变量&lt;br&gt;共享事件队列&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="570" y="970" width="260" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="state-consumer" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;状态机事件线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;每 100 ms 检查队列&lt;br&gt;Dequeue() → HandleEvent()&lt;br&gt;查询状态转换表 → ChangeState()&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="940" y="960" width="350" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="state-callbacks" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Enter / Exit 回调&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;在状态机线程内同步执行&lt;br&gt;旧状态 Exit()：停止并 join 工作线程&lt;br&gt;新状态 Enter()：按需启动工作线程&lt;br&gt;录音 / 播放流也在此启动或停止&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="950" width="400" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="event-enqueue" value="Enqueue()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#D97706;fontColor=#D97706;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="event-producers" target="event-queue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="event-dequeue" value="Dequeue()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#D97706;fontColor=#D97706;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="event-queue" target="state-consumer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="event-change" value="状态切换" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#3B82F6;fontColor=#3B82F6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="state-consumer" target="state-callbacks">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flags-band" value="&lt;b&gt;④ 播放完成判断：标志 + 播放队列 → 状态事件&lt;/b&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fontSize=22;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1230" width="1790" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="flags-ws" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;WebSocket 消息回调&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;tts.end → TTS 完成&lt;br&gt;chat.dialogue.end → 对话完成&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#0D9488;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1320" width="330" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="shared-flags" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Application 共享标志&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;tts_completed_&lt;br&gt;dialogue_completed_&lt;br&gt;当前实现为普通 bool 成员&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="510" y="1310" width="350" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="speaking-check" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Speaking 工作线程&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;每 500 ms 检查 TTS 完成标志&lt;br&gt;同时检查 playbackQueue 是否为空&lt;br&gt;满足后再等 500 ms，并投递事件&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#65A30D;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="970" y="1310" width="380" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="finish-event" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;eventQueue_（同上）&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;对话未结束：speaking_end&lt;br&gt;对话已结束：dialogue_end&lt;br&gt;由状态机继续处理&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1470" y="1310" width="330" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="flags-write" value="写入" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#0D9488;fontColor=#0D9488;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="flags-ws" target="shared-flags">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flags-read" value="读取" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#65A30D;fontColor=#65A30D;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="shared-flags" target="speaking-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flags-event" value="Enqueue()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#D97706;fontColor=#D97706;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="speaking-check" target="finish-event">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-note" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;阅读说明&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;Speaking 工作线程只检查何时播完；实际输出由 PortAudio 回调负责。网络音频解码在 WebSocket 线程中，没有额外的解码线程。&lt;br&gt;本图展示现有代码的访问关系；共享标志为普通 bool，图中的箭头不表示这些跨线程访问已经具备同步保证。&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1960" width="1790" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="flow-sources" value="源码依据：Audio/AudioProcess.cc · Application/WS_Handler.cc · Application/Application.cc · Application/UserStates/*.cc · Events/EventQueue.h" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fillColor=none;strokeColor=none;spacing=0;fontColor=#475569;fontSize=15;fontStyle=0;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="2130" width="1790" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-band" value="&lt;b&gt;⑤ LVGL 主线程经 C 接口读取状态与意图　（同进程访问）&lt;/b&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;fontSize=22;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1570" width="1790" height="345" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-shared" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;Client 共享数据&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;状态机线程更新当前状态&lt;br&gt;WebSocket 线程将 function_call&lt;br&gt;消息放入 IntentQueue_&lt;br&gt;对象与队列仍属于同一 Application&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1670" width="400" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-getters" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;C 接口层 · 在 GUI 主线程执行&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;get_aichat_app_state() → app-&amp;gt;getState()&lt;br&gt;get_aichat_app_intent() → IntentQueue_ 出队&lt;br&gt;将 C++ 数据转换成 C 可用的返回值 / 结构体&lt;br&gt;没有创建额外的查询线程或进程&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="590" y="1670" width="490" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-timers" value="&lt;div style=&quot;font-size:19px;font-weight:bold;line-height:1.25&quot;&gt;LVGL / GUI 主线程 · 定时回调&lt;/div&gt;&lt;div style=&quot;font-size:15px;line-height:1.5;margin-top:8px&quot;&gt;_ChatBotTimer_cb()：250 ms 查询状态并更新表情&lt;br&gt;_ChatBotMoveTimer_cb()：500 ms 获取意图并控制运动&lt;br&gt;均由 main() 中的 lv_timer_handler() 调度执行&lt;br&gt;关闭页面的手势处理通过 stop_ai_chat() 发出停止请求&lt;/div&gt;" style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;strokeWidth=1.5;fontColor=#0F172A;fontFamily=Helvetica;fontSize=17;align=left;verticalAlign=top;spacing=16;shadow=0;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="1670" width="600" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-data-return" value="读取数据" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#D97706;fontColor=#D97706;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gui-shared" target="gui-getters">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gui-query-return" value="返回结果" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#3B82F6;fontColor=#3B82F6;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="gui-getters" target="gui-timers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -341,7 +341,11 @@
 };
 // I2C
 &i2c0 {
-	pinctrl-0 = <&i2c0m2_xfer>;
+	//pinctrl-0 = <&i2c0m2_xfer>;
+	status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&i2c0m0_xfer>;
+    clock-frequency = <100000>;
 };
 
 &i2c1 {

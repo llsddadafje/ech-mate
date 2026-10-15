@@ -1,0 +1,5 @@
+# 本地测试音频及生成模型不需要发送给 Docker 构建器。
+/build/
+/model/
+/seasalt-src/.git/
+**/__pycache__/

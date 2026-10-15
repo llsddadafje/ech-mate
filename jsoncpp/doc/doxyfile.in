@@ -1,0 +1,105 @@
+# Doxygen configuration template for JsonCpp.
+#
+# Only settings that differ from the doxygen defaults are listed. Tokens of the
+# form %NAME% are substituted by doxybuild.py, which is the supported way to
+# build the documentation:
+#
+#     python3 doxybuild.py [--with-dot] [--open]
+#
+# Run `doxygen -x doc/doxyfile` (after doxybuild.py has generated it) to see the
+# effective configuration, or `doxygen -g` for a fully-commented reference.
+
+#---------------------------------------------------------------------------
+# Project
+#---------------------------------------------------------------------------
+PROJECT_NAME           = JsonCpp
+PROJECT_NUMBER         = %JSONCPP_VERSION%
+PROJECT_BRIEF          = "JSON data format manipulation library"
+STRIP_FROM_PATH        = %TOPDIR%
+STRIP_FROM_INC_PATH    = %TOPDIR%/include
+JAVADOC_AUTOBRIEF      = YES
+TAB_SIZE               = 2
+BUILTIN_STL_SUPPORT    = YES
+TIMESTAMP              = NO
+
+#---------------------------------------------------------------------------
+# Input
+#---------------------------------------------------------------------------
+INPUT                  = ../include \
+                         ../src/lib_json \
+                         ../README.md \
+                         .
+FILE_PATTERNS          = *.h \
+                         *.cpp \
+                         *.inl \
+                         *.dox \
+                         *.md
+RECURSIVE              = YES
+USE_MDFILE_AS_MAINPAGE = ../README.md
+EXAMPLE_PATH           = ..
+
+#---------------------------------------------------------------------------
+# Extraction
+#---------------------------------------------------------------------------
+EXTRACT_ALL            = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = NO
+INTERNAL_DOCS          = YES
+CASE_SENSE_NAMES       = NO
+SORT_BY_SCOPE_NAME     = YES
+GENERATE_TESTLIST      = NO
+GENERATE_BUGLIST       = NO
+
+#---------------------------------------------------------------------------
+# Warnings: the build fails on any documentation warning so regressions are
+# caught in CI. See .github/workflows/docs.yml.
+#---------------------------------------------------------------------------
+WARN_AS_ERROR          = FAIL_ON_WARNINGS
+WARN_LOGFILE           = %WARNING_LOG_PATH%
+
+#---------------------------------------------------------------------------
+# Preprocessing: document the public API as seen by a modern C++17 compiler,
+# with export/deprecation decorations stripped.
+#---------------------------------------------------------------------------
+MACRO_EXPANSION        = YES
+INCLUDE_PATH           = ../include
+INCLUDE_FILE_PATTERNS  = *.h
+PREDEFINED             = JSONCPP_DOC_EXCLUDE_IMPLEMENTATION \
+                         "JSONCPP_DEPRECATED(message)=" \
+                         "JSON_API=" \
+                         "JSONCPP_NORETURN=" \
+                         "__cplusplus=201703L" \
+                         "JSON_USE_EXCEPTION=1"
+
+#---------------------------------------------------------------------------
+# HTML output, styled with doxygen-awesome-css (doc/doxygen-awesome-css/).
+# The colour-style settings are the ones recommended by that theme.
+#---------------------------------------------------------------------------
+HTML_OUTPUT            = %HTML_OUTPUT%
+HTML_EXTRA_STYLESHEET  = doxygen-awesome-css/doxygen-awesome.css \
+                         doxygen-awesome-css/doxygen-awesome-sidebar-only.css
+HTML_COLORSTYLE        = LIGHT
+HTML_COLORSTYLE_HUE    = 209
+HTML_COLORSTYLE_SAT    = 255
+HTML_COLORSTYLE_GAMMA  = 113
+HTML_DYNAMIC_SECTIONS  = YES
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+SEARCHENGINE           = YES
+SOURCE_BROWSER         = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+GENERATE_LATEX         = NO
+
+#---------------------------------------------------------------------------
+# Graphs (only when doxybuild.py is run with --with-dot)
+#---------------------------------------------------------------------------
+HAVE_DOT               = %HAVE_DOT%
+DOT_PATH               = %DOT_PATH%
+DOT_IMAGE_FORMAT       = svg
+UML_LOOK               = %UML_LOOK%
+TEMPLATE_RELATIONS     = YES
+# Graphs that exceed this are skipped with a warning, which WARN_AS_ERROR
+# turns into a build failure; keep comfortable headroom.
+DOT_GRAPH_MAX_NODES    = 200

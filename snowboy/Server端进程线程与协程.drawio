@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" type="device" pages="2" compressed="false">
+  <diagram id="echo-server-concurrency" name="01 进程线程与协程结构">
+    <mxGraphModel dx="2360" dy="2110" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2360" pageHeight="2110" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Echo-Mate Server · 进程、线程与协程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=34;fontColor=#24374E;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="60" y="28" width="2240" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="依据当前 main.py 入口和本地 AIChatServer 环境绘制；这是代码结构图，线程数量会随任务和连接变化。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#60748A;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="62" y="91" width="2236" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-0" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#2871B8;strokeColor=#2871B8;strokeWidth=1.5;">
+          <mxGeometry x="65" y="161" width="16" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-text-0" value="主线程 / asyncio 协程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#2871B8;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="93" y="150" width="520" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-1" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#BE6A25;strokeColor=#BE6A25;strokeWidth=1.5;">
+          <mxGeometry x="635" y="161" width="16" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-text-1" value="聊天线程池" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#BE6A25;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="663" y="150" width="520" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-2" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#8054B3;strokeColor=#8054B3;strokeWidth=1.5;">
+          <mxGeometry x="1205" y="161" width="16" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-text-2" value="SDK 接收线程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#8054B3;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1233" y="150" width="520" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-3" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#238064;strokeColor=#238064;strokeWidth=1.5;">
+          <mxGeometry x="1775" y="161" width="16" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-text-3" value="音频编码线程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#238064;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1803" y="150" width="520" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="process" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FAFCFF;strokeColor=#9AAEC4;strokeWidth=1.5;">
+          <mxGeometry x="55" y="220" width="2250" height="1580" as="geometry" />
+        </mxCell>
+        <mxCell id="process-title" value="1 个应用进程：python main.py   ·   当前业务入口没有显式创建子进程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=28;fontColor=#24374E;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="85" y="239" width="2170" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="main-thread" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#EEF5FE;strokeColor=#81A5CD;strokeWidth=1.5;">
+          <mxGeometry x="100" y="325" width="820" height="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="main-thread-title" value="主线程 MainThread · 1 个" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=27;fontColor=#2871B8;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="130" y="343" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="bootstrap" value="asyncio.run(main())&#10;创建 ServiceManager、线程池对象&#10;启动 AudioSendThread，await server.start_server()" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=21;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#97B5D6;strokeWidth=1.5;">
+          <mxGeometry x="145" y="415" width="730" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="event-loop" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#F8FBFF;strokeColor=#97B5D6;strokeWidth=1.5;">
+          <mxGeometry x="140" y="590" width="740" height="720" as="geometry" />
+        </mxCell>
+        <mxCell id="loop-title" value="同一个 asyncio 事件循环调度以下协程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=23;fontColor=#2871B8;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="165" y="605" width="690" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="server-main" value="main() → await start_server()&#10;websockets.serve(...) 接受连接；await Future() 保持服务" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#E4EFFD;strokeColor=#90B1D5;strokeWidth=1.5;">
+          <mxGeometry x="170" y="675" width="680" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="per-connection" value="每个 WebSocket 连接对应一组接收 / 发送任务" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#2871B8;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="175" y="800" width="670" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="handle-client" value="handle_client()&#10;每个连接调用一次&#10;鉴权后反复接收消息&#10;async for message...&#10;await AudioHandler&#10;或 await TextHandler" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#E4EFFD;strokeColor=#90B1D5;strokeWidth=1.5;">
+          <mxGeometry x="175" y="875" width="305" height="255" as="geometry" />
+        </mxCell>
+        <mxCell id="process-send" value="process_send_queue()&#10;create_task() 创建&#10;反复检查 ws_send_queue&#10;get_nowait() 取一项&#10;await websocket.send()&#10;队列空：sleep(0.1)" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#E4EFFD;strokeColor=#90B1D5;strokeWidth=1.5;">
+          <mxGeometry x="525" y="875" width="320" height="255" as="geometry" />
+        </mxCell>
+        <mxCell id="create-send-task" parent="1" edge="1" source="handle-client" target="process-send" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#2871B8;strokeWidth=2;exitX=1;exitY=0.22;exitDx=0;exitDy=0;entryX=0;entryY=0.22;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="create-note" value="两个协程共用主线程；create_task() 不会新建线程。&#10;AudioHandler / TextHandler 是直接 await 的调用，也没有新建线程。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=17;fontColor=#2871B8;fontStyle=0;align=center;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="175" y="1145" width="670" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="lib-tasks" value="websockets 库还有收包、心跳、关闭连接等内部协程任务" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#F2F6FC;strokeColor=#CBD9E9;strokeWidth=1.5;">
+          <mxGeometry x="175" y="1220" width="670" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="sync-work" value="VAD / ASR 在接收路径中同步调用。&#10;这段同步处理占用主线程时，同一事件循环的收发会等待。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFF7E9;strokeColor=#D2B181;strokeWidth=1.5;">
+          <mxGeometry x="140" y="1335" width="740" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="enter-loop" parent="1" edge="1" source="bootstrap" target="server-main" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#2871B8;strokeWidth=2;exitX=0.014;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="155.22" y="565" />
+              <mxPoint x="155.22" y="727.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pool-panel" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFF5E8;strokeColor=#D0A16B;strokeWidth=1.5;">
+          <mxGeometry x="990" y="325" width="600" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="pool-title" value="聊天线程池 · 按需 0～5 个" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=26;fontColor=#BE6A25;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1015" y="344" width="550" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pool-source" value="ThreadPoolExecutor(max_workers=5)&#10;submit_task() 提交任务；空闲线程可复用" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#BE6A25;fontStyle=0;align=center;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1020" y="412" width="540" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="chat-task" value="工作线程执行 chat_start_task(asr_res)&#10;① 意图识别，必要时产生控制 JSON&#10;② 遍历 LLM 流式回复，得到文字片段&#10;③ 调用 tts_speech_stream(text_chunk)&#10;④ tts_close() → streaming_complete()&#10;最后一步等待合成完成，占用当前工作线程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#D2AD7E;strokeWidth=1.5;">
+          <mxGeometry x="1020" y="510" width="540" height="225" as="geometry" />
+        </mxCell>
+        <mxCell id="worker-0" value="W1" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=21;fontColor=#24374E;fontStyle=1;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFE9CB;strokeColor=#D2AD7E;strokeWidth=1.5;">
+          <mxGeometry x="1020" y="780" width="95" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="worker-1" value="W2" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=21;fontColor=#24374E;fontStyle=1;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFE9CB;strokeColor=#D2AD7E;strokeWidth=1.5;">
+          <mxGeometry x="1128" y="780" width="95" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="worker-2" value="W3" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=21;fontColor=#24374E;fontStyle=1;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFE9CB;strokeColor=#D2AD7E;strokeWidth=1.5;">
+          <mxGeometry x="1236" y="780" width="95" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="worker-3" value="W4" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=21;fontColor=#24374E;fontStyle=1;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFE9CB;strokeColor=#D2AD7E;strokeWidth=1.5;">
+          <mxGeometry x="1344" y="780" width="95" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="worker-4" value="W5" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=21;fontColor=#24374E;fontStyle=1;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFE9CB;strokeColor=#D2AD7E;strokeWidth=1.5;">
+          <mxGeometry x="1452" y="780" width="95" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="workers-note" value="上限示意：创建线程池对象时并不会立即启动 5 个线程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=16;fontColor=#60748A;fontStyle=0;align=center;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1020" y="836" width="540" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="audio-panel" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#EEF8F2;strokeColor=#87B59B;strokeWidth=1.5;">
+          <mxGeometry x="1640" y="325" width="600" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="audio-title" value="AudioSendThread · 1 个" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=26;fontColor=#238064;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1665" y="344" width="550" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="audio-source" value="main.py 中 tts_send_thread.start()&#10;threading.Thread(daemon=True)" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#238064;fontStyle=0;align=center;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1670" y="412" width="540" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="audio-work" value="run() 循环处理 PCM 音频&#10;audio_queue.get(timeout=1)&#10;拼接余量 → 按 40ms 音频切帧&#10;Opus 编码 → BinProtocol 打包&#10;ws_send_queue.put(bin_data)&#10;真正的网络发送由主线程发送协程执行" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#9ABDAB;strokeWidth=1.5;">
+          <mxGeometry x="1670" y="510" width="540" height="225" as="geometry" />
+        </mxCell>
+        <mxCell id="audio-stop" value="stop_event 控制退出；main() 退出时 join()。&#10;40ms 是音频帧时长，不是网络发送定时周期。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#238064;fontStyle=0;align=center;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1670" y="779" width="540" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk-panel" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#F7F2FC;strokeColor=#AD98C4;strokeWidth=1.5;">
+          <mxGeometry x="990" y="940" width="1250" height="515" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk-title" value="库内部的线程 · 仍在同一个 Python 进程内" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=26;fontColor=#8054B3;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1015" y="957" width="1200" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="tts-sdk" value="TTS SDK WebSocket 接收线程&#10;本地 DashScope 1.26.7 已确认：&#10;Thread(target=self.ws.run_forever)&#10;创建为 daemon 并 start()&#10;首次 streaming_call() 按需建立连接&#10;在接收线程触发 on_data / on_complete&#10;→ _tts_on_data() / _tts_on_complete()&#10;回调是函数调用，不是各自再开一个线程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#AD98C4;strokeWidth=1.5;">
+          <mxGeometry x="1020" y="1030" width="600" height="375" as="geometry" />
+        </mxCell>
+        <mxCell id="native-threads" value="模型 / 数值库的内部线程&#10;PyTorch、BLAS 等可能维护内部线程池&#10;数量取决于环境、模型和运行配置&#10;没有在业务代码中逐个创建&#10;&#10;SDK 接收线程也随 TTS 连接生命周期变化&#10;因此系统观察到的总线程数&#10;不能固定写成 2 个或 7 个" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#AD98C4;strokeWidth=1.5;">
+          <mxGeometry x="1660" y="1030" width="550" height="375" as="geometry" />
+        </mxCell>
+        <mxCell id="disabled" value="已创建对象但未启动的线程：TTSGenerateThread&#10;main.py 中 tts_generate_thread.start() / join() 均被注释&#10;tts_text_queue 也未用于当前聊天任务；文本入队代码被注释&#10;当前由聊天工作线程直接调用 tts_speech_stream(text_chunk)&#10;因此 TTSGenerateThread 不计入正在运行的线程数" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#F2F3F5;strokeColor=#ACB3BC;strokeWidth=1.5;">
+          <mxGeometry x="100" y="1525" width="1050" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="shared" value="共享对象：ServiceManager&#10;audio_queue：SDK 回调 → AudioSendThread&#10;ws_send_queue：多个生产者 → 主线程的发送协程&#10;tts_text_queue：已创建，当前处理路径未启用&#10;queue.Queue / stop_event / VAD、ASR、TTS 服务对象本身都不是进程或线程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#F0F7F5;strokeColor=#9FBEB3;strokeWidth=1.5;">
+          <mxGeometry x="1190" y="1525" width="1050" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="count-note" value="正常运行中的应用显式线程：1 个主线程 + 1 个 AudioSendThread + 0～5 个聊天工作线程 = 2～7 个&#10;另外还有 SDK / 模型库内部线程；协程数量随客户端连接数变化。&#10;客户端程序与云端 LLM / TTS 服务位于该 Server 进程之外。图中不把云服务当作本地子进程。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=22;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#C9D6E3;strokeWidth=1.5;">
+          <mxGeometry x="80" y="1840" width="2200" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="sources" value="代码依据：Server/main.py:10、threads/task_manager.py:6、threads/audio_send_thread.py:8、ws_server.py:27/52/117、service_manager.py:56/74。&#10;库实现依据：AIChatServer 环境 dashscope/audio/tts_v2/speech_synthesizer.py:402/655/785；websockets/legacy/protocol.py:359。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=17;fontColor=#60748A;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="80" y="1997" width="2200" height="75" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="echo-server-queue-flow" name="02 线程之间的队列与发送路径">
+    <mxGraphModel dx="2400" dy="2100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2100" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Echo-Mate Server · 线程之间如何传数据" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=34;fontColor=#24374E;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="60" y="28" width="2280" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="队列属于共享内存中的 ServiceManager。各线程 put() 放入结果，消费者 get() 取出；网络发送集中在主线程的发送协程。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#60748A;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="62" y="91" width="2276" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-0" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#2871B8;strokeColor=#2871B8;strokeWidth=1.5;">
+          <mxGeometry x="65" y="161" width="16" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-text-0" value="主线程 / asyncio 协程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#2871B8;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="93" y="150" width="520" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-1" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#BE6A25;strokeColor=#BE6A25;strokeWidth=1.5;">
+          <mxGeometry x="635" y="161" width="16" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-text-1" value="聊天线程池" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#BE6A25;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="663" y="150" width="520" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-2" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#8054B3;strokeColor=#8054B3;strokeWidth=1.5;">
+          <mxGeometry x="1205" y="161" width="16" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-text-2" value="SDK 接收线程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#8054B3;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1233" y="150" width="520" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-3" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#238064;strokeColor=#238064;strokeWidth=1.5;">
+          <mxGeometry x="1775" y="161" width="16" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-text-3" value="音频编码线程" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#238064;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1803" y="150" width="520" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="producers-heading" value="生产者：按实际执行所在的线程分组" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=26;fontColor=#24374E;fontStyle=1;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="80" y="235" width="2240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="main-producer" value="主线程 · handle_client 接收路径&#10;AudioHandler：解包、VAD、ASR&#10;ASR 后提交 chat_start_task 到线程池&#10;继续把 ASR / VAD 结果序列化为 JSON&#10;ws_send_queue.put(json.dumps(res))&#10;鉴权 auth 响应直接 websocket.send()，不走此队列" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#EEF5FE;strokeColor=#81A5CD;strokeWidth=1.5;">
+          <mxGeometry x="100" y="390" width="580" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="pool-producer" value="聊天线程池 · chat_start_task&#10;工作线程独立执行意图识别与聊天&#10;exit_chat → chat/dialogue=end&#10;其他动作 → function_call&#10;控制 JSON 直接放入 ws_send_queue&#10;LLM 文字片段交给 TTS SDK，不走 tts_text_queue" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFF5E8;strokeColor=#D0A16B;strokeWidth=1.5;">
+          <mxGeometry x="780" y="390" width="580" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk-producer" value="" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#F7F2FC;strokeColor=#AD98C4;strokeWidth=1.5;">
+          <mxGeometry x="1460" y="390" width="860" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk-producer-title" value="TTS SDK 接收线程 · 收到云端响应后调用回调" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=22;fontColor=#8054B3;fontStyle=1;align=center;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1490" y="408" width="800" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk-complete" value="on_complete 回调&#10;_tts_on_complete()&#10;tts/end 转 JSON 字符串&#10;put 到 ws_send_queue" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#AD98C4;strokeWidth=1.5;">
+          <mxGeometry x="1490" y="490" width="360" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk-data" value="on_data 回调&#10;_tts_on_data(data)&#10;收到 PCM bytes&#10;audio_queue.put(data)" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#AD98C4;strokeWidth=1.5;">
+          <mxGeometry x="1890" y="490" width="400" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="pcm-queue" value="audio_queue · queue.Queue&#10;队列元素：云端返回的 PCM bytes&#10;每次 get() 移除一个音频块" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFF7D9;strokeColor=#CEB66C;strokeWidth=1.5;">
+          <mxGeometry x="1870" y="785" width="440" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="audio-consumer" value="AudioSendThread&#10;get PCM → 拼接余量 → 切帧&#10;encode_audio()：PCM → Opus&#10;pack_bin_frame()：协议头 + Opus&#10;ws_send_queue.put(bin_data)" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=21;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#EEF8F2;strokeColor=#87B59B;strokeWidth=1.5;">
+          <mxGeometry x="1840" y="1015" width="500" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="send-queue" value="ws_send_queue · queue.Queue&#10;按实际入队顺序保存待发内容&#10;JSON 字符串 str：asr / vad / chat / tts / function_call&#10;二进制 bytes：BinProtocol 头 + Opus 音频" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=22;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFF7D9;strokeColor=#CEB66C;strokeWidth=1.5;">
+          <mxGeometry x="790" y="1035" width="820" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="tts-pcm" parent="1" edge="1" source="sdk-data" target="pcm-queue" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#8054B3;strokeWidth=2.8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pcm-put-label" value="put(PCM)&#10;跨线程交接" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#8054B3;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="2120" y="696" width="200" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="pcm-get" parent="1" edge="1" source="pcm-queue" target="audio-consumer" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#238064;strokeWidth=2.8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pcm-get-label" value="get(timeout=1)" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#238064;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="2115" y="931" width="215" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="audio-enqueue" parent="1" edge="1" source="audio-consumer" target="send-queue" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#238064;strokeWidth=2.8;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bin-put-label" value="put(bin_data)&#10;Opus + 协议头" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#238064;fontStyle=0;align=center;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1620" y="1050" width="210" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="main-json" parent="1" edge="1" source="main-producer" target="send-queue" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#2871B8;strokeWidth=2.8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.12;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="940" />
+              <mxPoint x="888.4" y="940" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="main-put-label" value="ASR / VAD JSON&#10;put() 只入队，不立即发送" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=19;fontColor=#2871B8;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="405" y="806" width="355" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="pool-json" parent="1" edge="1" source="pool-producer" target="send-queue" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#BE6A25;strokeWidth=2.8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.34;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pool-put-label" value="chat / function_call JSON&#10;聊天任务不等待发送协程完成&#10;发送协程也不等待整个聊天任务结束" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#BE6A25;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1100" y="790" width="375" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="sdk-json" parent="1" edge="1" source="sdk-complete" target="send-queue" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#8054B3;strokeWidth=2.8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.77;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1670" y="940" />
+              <mxPoint x="1421.4" y="940" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sdk-put-label" value="tts/end JSON&#10;由完成回调直接入发送队列" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#8054B3;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1490" y="800" width="355" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="send-consumer" value="主线程 · process_send_queue(websocket)&#10;每个连接通过 asyncio.create_task() 创建&#10;get_nowait() → await websocket.send(data)&#10;队列空时 await asyncio.sleep(0.1)，之后重新检查" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=22;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#EEF5FE;strokeColor=#81A5CD;strokeWidth=1.5;">
+          <mxGeometry x="790" y="1370" width="820" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="dequeue" parent="1" edge="1" source="send-queue" target="send-consumer" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#2871B8;strokeWidth=3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dequeue-label" value="取出并移除队头一项；连续处理队列中的数据&#10;100ms 是队列空时的等待时间，不是固定的发送周期" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#2871B8;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1230" y="1260" width="900" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="client" value="客户端进程（Server 进程之外）&#10;接收 JSON 或二进制音频" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=24;fontColor=#24374E;fontStyle=0;align=center;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#FFFFFF;strokeColor=#93A7BC;strokeWidth=1.5;">
+          <mxGeometry x="940" y="1680" width="520" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="network-send" parent="1" edge="1" source="send-consumer" target="client" style="edgeStyle=none;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#2871B8;strokeWidth=3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wire-label" value="str → WebSocket 文本消息&#10;bytes → WebSocket 二进制消息" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#2871B8;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="1235" y="1580" width="920" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="执行关系&#10;• put/get 是同一进程内的线程安全队列操作；audio_queue 和 ws_send_queue 都不是独立线程。&#10;• TTS 完成通知与音频编码入队走不同路径，所以 tts/end 不保证排在最后音频包之后。send() 返回也不代表客户端播放完成。&#10;• 多个连接会各自创建接收 / 发送协程，但当前代码共用一个 ServiceManager 和发送队列；图中以单客户端说明。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=20;fontColor=#24374E;fontStyle=0;align=left;verticalAlign=middle;spacing=14;rounded=1;arcSize=12;fillColor=#F5F8FC;strokeColor=#C9D6E3;strokeWidth=1.5;">
+          <mxGeometry x="80" y="1860" width="2240" height="155" as="geometry" />
+        </mxCell>
+        <mxCell id="sources" value="代码依据：service_manager.py:25–27/56–72/91–100；threads/audio_send_thread.py:21–45；ws_server.py:27–44/66。所有节点与箭头均可在 draw.io 中编辑。" parent="1" vertex="1" style="html=0;whiteSpace=wrap;fontFamily=Noto Sans CJK SC;fontSize=17;fontColor=#60748A;fontStyle=0;align=left;verticalAlign=middle;spacing=14;text;fillColor=none;strokeColor=none;spacing=0;">
+          <mxGeometry x="80" y="2030" width="2240" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

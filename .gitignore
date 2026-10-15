@@ -1,3 +1,25 @@
 # *.o
 .vscode
 
+# 保留在本地的嵌套 Git 元数据备份
+.git.backup
+.gitmodules.backup
+
+# 缓存、构建产物和本地配置
+__pycache__/
+*.pyc
+*.o
+*.bak
+.env
+.env.*
+build/
+build_arm/
+build_rv1106/
+build.backup.*/
+logs/
+vmlinux
+
+# 下载的模型与 SDK 构建输出
+/Demo/AIChat_demo/Server/models/FunAudioLLM/iic/
+/SDK/rv1106-sdk/output/
+/SDK/rv1106-sdk/sysdrv/out/

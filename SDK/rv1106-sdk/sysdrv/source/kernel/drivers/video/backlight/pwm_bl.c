@@ -476,7 +476,7 @@ static int pwm_backlight_probe(struct platform_device *pdev)
 			dev_err(&pdev->dev, "failed to find platform data\n");
 			return ret;
 		}
-
+	
 		data = &defdata;
 	}
 

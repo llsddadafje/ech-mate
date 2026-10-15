@@ -1,0 +1,127 @@
+<mxfile host="Electron" type="device" pages="1" compressed="false">
+  <diagram id="aichat-all-state-transitions" name="全部状态转换">
+    <mxGraphModel dx="1800" dy="1330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1330" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="H-title" value="AIChat 客户端 · 全部状态转换" parent="1" vertex="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK SC;fontSize=32;fontColor=#2D4055;fontStyle=1;spacing=0;">
+          <mxGeometry x="40" y="25" width="1720" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="H-subtitle" value="事件箭头标注 AppEvent；每次转换依次执行：旧状态 Exit() → 更新当前状态 → 新状态 Enter()。" parent="1" vertex="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK SC;fontSize=17;fontColor=#2D4055;fontStyle=0;spacing=0;">
+          <mxGeometry x="42" y="87" width="1710" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="normal" value="" parent="1" vertex="1" style="rounded=1;arcSize=8;fillColor=#FAFCFF;strokeColor=#CBD8E7;strokeWidth=1.2;">
+          <mxGeometry x="30" y="150" width="1740" height="650" as="geometry" />
+        </mxCell>
+        <mxCell id="title-normal" value="普通转换规则（蓝色实线）" parent="1" vertex="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#2D4055;fontStyle=1;spacing=0;">
+          <mxGeometry x="52" y="162" width="1696" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="globals" value="" parent="1" vertex="1" style="rounded=1;arcSize=8;fillColor=#FFFCF5;strokeColor=#D8C49E;strokeWidth=1.2;">
+          <mxGeometry x="30" y="835" width="1740" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="title-globals" value="全局转换规则（橙色虚线）：from = -1" parent="1" vertex="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#2D4055;fontStyle=1;spacing=0;">
+          <mxGeometry x="52" y="847" width="1696" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="initial" value="" parent="1" vertex="1" style="ellipse;fillColor=#24374E;strokeColor=#24374E;">
+          <mxGeometry x="90" y="295" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="S-startup" value="&lt;b&gt;startup · 启动&lt;/b&gt;&lt;br/&gt;建立连接，发送初始化消息" parent="1" vertex="1" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EDF4FF;strokeColor=#7094C3;strokeWidth=2;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;align=center;verticalAlign=middle;spacing=12;">
+          <mxGeometry x="180" y="240" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="S-idle" value="&lt;b&gt;idle · 空闲&lt;/b&gt;&lt;br/&gt;录音，检测唤醒词" parent="1" vertex="1" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EDF4FF;strokeColor=#7094C3;strokeWidth=2;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;align=center;verticalAlign=middle;spacing=12;">
+          <mxGeometry x="670" y="240" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="S-speaking" value="&lt;b&gt;speaking · 播放&lt;/b&gt;&lt;br/&gt;播放本地唤醒提示音&lt;br/&gt;或服务端回复音频" parent="1" vertex="1" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EDF4FF;strokeColor=#7094C3;strokeWidth=2;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;align=center;verticalAlign=middle;spacing=12;">
+          <mxGeometry x="1240" y="240" width="350" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="S-listening" value="&lt;b&gt;listening · 监听&lt;/b&gt;&lt;br/&gt;录音、编码并上传对话音频" parent="1" vertex="1" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EDF4FF;strokeColor=#7094C3;strokeWidth=2;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;align=center;verticalAlign=middle;spacing=12;">
+          <mxGeometry x="670" y="610" width="300" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="S-thinking" value="&lt;b&gt;thinking · 等待回复&lt;/b&gt;&lt;br/&gt;等待服务端返回回复音频" parent="1" vertex="1" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#EDF4FF;strokeColor=#7094C3;strokeWidth=2;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;align=center;verticalAlign=middle;spacing=12;">
+          <mxGeometry x="1240" y="610" width="350" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="S-fault" value="&lt;b&gt;fault · 故障&lt;/b&gt;&lt;br/&gt;检查 WebSocket 连接&lt;br/&gt;仍连接：发 fault_solved&lt;br/&gt;已断开：发 to_stop" parent="1" vertex="1" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF3DF;strokeColor=#C19445;strokeWidth=2;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;align=center;verticalAlign=middle;spacing=12;">
+          <mxGeometry x="180" y="910" width="300" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="S-stopping" value="&lt;b&gt;stopping · 停止&lt;/b&gt;&lt;br/&gt;关闭连接&lt;br/&gt;停止主事件循环" parent="1" vertex="1" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FDECEC;strokeColor=#C17B7B;strokeWidth=2;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;align=center;verticalAlign=middle;spacing=12;">
+          <mxGeometry x="1300" y="930" width="320" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="S-any" value="&lt;b&gt;任意已注册状态 · from = -1&lt;/b&gt;&lt;br/&gt;规则缩写，非 AppState&lt;br/&gt;覆盖全部 7 个状态&lt;br/&gt;包含 fault、stopping 自身" parent="1" vertex="1" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;overflow=hidden;fillColor=#FFF8EC;strokeColor=#C19445;strokeWidth=2;fontFamily=Noto Sans CJK SC;fontSize=18;fontColor=#24374E;align=center;verticalAlign=middle;spacing=12;dashed=1;dashPattern=6 4;">
+          <mxGeometry x="700" y="915" width="420" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="E-initialize" value="初始化" parent="1" edge="1" source="initial" target="S-startup" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="0" y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-startup_done" value="startup_done&lt;br/&gt;启动完成" parent="1" edge="1" source="S-startup" target="S-idle" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-wake_detected" value="wake_detected&lt;br/&gt;检测到唤醒词" parent="1" edge="1" source="S-idle" target="S-speaking" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-vad_no_speech" value="vad_no_speech&lt;br/&gt;无语音超时" parent="1" edge="1" source="S-listening" target="S-idle" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-100" y="0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-asr_received" value="asr_received&lt;br/&gt;收到识别结果" parent="1" edge="1" source="S-listening" target="S-thinking" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E-speaking_msg_received" value="speaking_msg_received&lt;br/&gt;本轮首条回复音频" parent="1" edge="1" source="S-thinking" target="S-speaking" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1670" y="677.5" />
+              <mxPoint x="1670" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-speaking_end" value="speaking_end&lt;br/&gt;本轮播放结束" parent="1" edge="1" source="S-speaking" target="S-listening" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.8;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1415" y="500" />
+              <mxPoint x="910" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-dialogue_end" value="dialogue_end&lt;br/&gt;整个对话结束" parent="1" edge="1" source="S-speaking" target="S-idle" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1415" y="207" />
+              <mxPoint x="820" y="207" />
+            </Array>
+            <mxPoint x="0" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-fault_solved" value="fault_solved&lt;br/&gt;连接检查通过" parent="1" edge="1" source="S-fault" target="S-idle" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#46698E;strokeWidth=2;fontColor=#46698E;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="992.5" />
+              <mxPoint x="580" y="344" />
+            </Array>
+            <mxPoint x="-70" y="0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-fault_happen" value="fault_happen&lt;br/&gt;发生故障" parent="1" edge="1" source="S-any" target="S-fault" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#B17A30;strokeWidth=2;fontColor=#B17A30;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;dashPattern=7 5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="997.5" />
+              <mxPoint x="620" y="1135" />
+              <mxPoint x="330" y="1135" />
+            </Array>
+            <mxPoint x="0" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E-to_stop" value="to_stop&lt;br/&gt;请求停止" parent="1" edge="1" source="S-any" target="S-stopping" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=20;html=1;endArrow=block;endFill=1;strokeColor=#B17A30;strokeWidth=2;fontColor=#B17A30;fontSize=16;fontFamily=Noto Sans CJK SC;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=7 5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="H-note" value="初始箭头表示 Initialize()；虚线框用于合并全局规则，不是第八个状态。未注册的“当前状态 + 事件”不会触发转换。" parent="1" vertex="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK SC;fontSize=16;fontColor=#2D4055;fontStyle=0;spacing=0;">
+          <mxGeometry x="42" y="1210" width="1710" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="H-source" value="源码：Demo/AIChat_demo/Client/Application/StateConfig.cc（42–51行） · 7个实际状态 / 8条普通规则 / 2条全局规则 · 核对日期：2026-10-09" parent="1" vertex="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Noto Sans CJK SC;fontSize=14;fontColor=#63768B;fontStyle=0;spacing=0;">
+          <mxGeometry x="42" y="1255" width="1710" height="28" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

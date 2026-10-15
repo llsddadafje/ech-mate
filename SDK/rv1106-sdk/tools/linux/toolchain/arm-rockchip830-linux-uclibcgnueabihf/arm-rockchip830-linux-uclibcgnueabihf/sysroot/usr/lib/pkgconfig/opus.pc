@@ -1,0 +1,16 @@
+# Opus codec reference implementation pkg-config file
+
+prefix=/home/mango/ai/Echo-Mate/SDK/rv1106-sdk/tools/linux/toolchain/arm-rockchip830-linux-uclibcgnueabihf/arm-rockchip830-linux-uclibcgnueabihf/sysroot/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Opus
+Description: Opus IETF audio codec (floating-point build)
+URL: https://opus-codec.org/
+Version: 1.5.2
+Requires:
+Conflicts:
+Libs: -L${libdir} -lopus
+Libs.private: -lm
+Cflags: -I${includedir}/opus
